@@ -6,8 +6,10 @@ describe('HyperPath', () => {
     expect(new HyperPath()).toBeInstanceOf(HyperPath)
   })
 
-  it('can create a channel', () => {
-    const channel: Channel = new HyperPath().createChannel()
-    expect(channel).toBeDefined()
+  describe('a channel', () => {
+    it('has an id', () => {
+      const channel: Channel = new HyperPath().createChannel()
+      expect(channel.id).toBeDefined()
+    })
   })
 })
