@@ -7,8 +7,8 @@ describe('HyperPath', () => {
   })
 
   describe('a channel', () => {
-    it('has an id', () => {
-      const channel: Channel = new HyperPath().createChannel()
+    it('has an id', async () => {
+      const channel: Channel = await new HyperPath().createChannel()
       expect(channel.id).toBeDefined()
     })
   })

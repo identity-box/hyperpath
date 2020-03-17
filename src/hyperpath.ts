@@ -1,8 +1,9 @@
-import { Channel } from './channel'
+import { Channel, ChannelID } from './channel'
 import { HyperSwarmChannel } from './hyperswarmChannel'
 
 export class HyperPath {
-  createChannel(): Channel {
-    return new HyperSwarmChannel()
+  async createChannel(): Promise<Channel> {
+    const id = await ChannelID.createRandom()
+    return new HyperSwarmChannel(id)
   }
 }
