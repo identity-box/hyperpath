@@ -3,6 +3,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import sourceMaps from 'rollup-plugin-sourcemaps'
 import typescript from 'rollup-plugin-typescript2'
 import json from '@rollup/plugin-json'
+import builtins from 'rollup-plugin-node-builtins'
 
 const pkg = require('./package.json')
 
@@ -12,13 +13,15 @@ export default {
   input: `src/${libraryName}.ts`,
   output: [
     { dir: 'dist', name: libraryName, format: 'umd', sourcemap: true },
-    { dir: 'dist', format: 'es', sourcemap: true },
+    { dir: 'dist', format: 'es', sourcemap: true }
   ],
   external: [],
   watch: {
-    include: 'src/**',
+    include: 'src/**'
   },
   plugins: [
+    builtins(),
+
     // Allow json resolution
     json(),
     // Compile TypeScript files
@@ -31,6 +34,6 @@ export default {
     resolve(),
 
     // Resolve source maps to the original source
-    sourceMaps(),
-  ],
+    sourceMaps()
+  ]
 }
