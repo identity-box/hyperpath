@@ -8,7 +8,7 @@ describe('HyperPath', () => {
     hyperPath = new HyperPath()
   })
 
-  describe('first peer creates channel', () => {
+  describe('create new channel', () => {
     it('creates channel with an auto-generated id', () => {
       const channel = hyperPath.createChannel()
       expect(channel.id).toBeDefined()
@@ -16,21 +16,21 @@ describe('HyperPath', () => {
     })
   })
 
-  describe('second peer joins channel', () => {
-    it('can be created with an explicit id', () => {
+  describe('open previously created channel', () => {
+    it('can be opened with an explicit id', () => {
       const id = new Uint8Array(32)
-      const channel = hyperPath.createChannel(id)
+      const channel = hyperPath.openChannel(id)
       expect(channel.id.bytes).toBe(id)
     })
 
-    it('cannot be created with too short id', () => {
+    it('cannot be opened with too short id', () => {
       const id = new Uint8Array(31)
-      expect(() => hyperPath.createChannel(id)).toThrowError(TypeError)
+      expect(() => hyperPath.openChannel(id)).toThrowError(TypeError)
     })
 
-    it('cannot be created with too long id', () => {
+    it('cannot be opened with too long id', () => {
       const id = new Uint8Array(33)
-      expect(() => hyperPath.createChannel(id)).toThrowError(TypeError)
+      expect(() => hyperPath.openChannel(id)).toThrowError(TypeError)
     })
   })
 })
