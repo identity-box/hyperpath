@@ -1,5 +1,20 @@
 import { randomBytes } from 'tweetnacl'
 
+/**
+ * Common interface for all HyperPath channels.
+ */
+export interface Channel {
+  /**
+   *  Unique identifier of the channel.
+   */
+  readonly id: ChannelID
+
+  /**
+   *  Encryption key in case this is an encrypted channel.
+   */
+  readonly key: Uint8Array | null
+}
+
 export class ChannelID {
   bytes: Uint8Array
 
@@ -21,8 +36,4 @@ export class ChannelID {
   private constructor(bytes: Uint8Array) {
     this.bytes = bytes
   }
-}
-
-export interface Channel {
-  readonly id: ChannelID
 }
