@@ -9,26 +9,26 @@ describe('HyperPath', () => {
   })
 
   describe('a channel', () => {
-    it('has an auto-generated id', async () => {
-      const channel = await hyperPath.createChannel()
+    it('has an auto-generated id', () => {
+      const channel = hyperPath.createChannel()
       expect(channel.id).toBeDefined()
       expect(channel.id.bytes.length).toBe(32)
     })
 
-    it('can be created with an explicit id', async () => {
+    it('can be created with an explicit id', () => {
       const id = new Uint8Array(32)
-      const channel = await hyperPath.createChannel(id)
+      const channel = hyperPath.createChannel(id)
       expect(channel.id.bytes).toBe(id)
     })
 
-    it('cannot be created with too short id', async () => {
+    it('cannot be created with too short id', () => {
       const id = new Uint8Array(31)
-      await expect(hyperPath.createChannel(id)).rejects.toThrowError(TypeError)
+      expect(() => hyperPath.createChannel(id)).toThrowError(TypeError)
     })
 
-    it('cannot be created with too long id', async () => {
+    it('cannot be created with too long id', () => {
       const id = new Uint8Array(33)
-      await expect(hyperPath.createChannel(id)).rejects.toThrowError(TypeError)
+      expect(() => hyperPath.createChannel(id)).toThrowError(TypeError)
     })
   })
 })

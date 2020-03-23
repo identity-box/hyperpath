@@ -73,6 +73,6 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@cogitojs/crypto": "^0.3.0"
+    "tweetnacl": "^1.0.3"
   }
 }

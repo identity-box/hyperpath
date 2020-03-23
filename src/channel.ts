@@ -1,12 +1,12 @@
-import { random } from '@cogitojs/crypto'
+import { randomBytes } from 'tweetnacl'
 
 export class ChannelID {
   bytes: Uint8Array
 
-  static async createRandom(): Promise<ChannelID> {
+  static createRandom(): ChannelID {
     const idSize = 32
-    const randomBytes = await random(idSize)
-    return new ChannelID(randomBytes)
+    const bytes = randomBytes(idSize)
+    return new ChannelID(bytes)
   }
 
   static create(id: Uint8Array): ChannelID {
