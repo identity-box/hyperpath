@@ -8,13 +8,15 @@ describe('HyperPath', () => {
     hyperPath = new HyperPath()
   })
 
-  describe('a channel', () => {
-    it('has an auto-generated id', () => {
+  describe('first peer creates channel', () => {
+    it('creates channel with an auto-generated id', () => {
       const channel = hyperPath.createChannel()
       expect(channel.id).toBeDefined()
       expect(channel.id.bytes.length).toBe(32)
     })
+  })
 
+  describe('second peer joins channel', () => {
     it('can be created with an explicit id', () => {
       const id = new Uint8Array(32)
       const channel = hyperPath.createChannel(id)
