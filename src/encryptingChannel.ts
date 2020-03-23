@@ -10,7 +10,7 @@ export class EncryptingChannel implements Channel {
   }
 
   constructor(key: Uint8Array, wrappedChannel: Channel) {
-    if (key.length != secretbox.keyLength) {
+    if (key.length !== secretbox.keyLength) {
       throw new TypeError('key length be `nacl.secretbox.keyLength`')
     }
     this.key = key

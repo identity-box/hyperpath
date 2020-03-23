@@ -25,7 +25,7 @@ export class ChannelID {
   }
 
   static create(id: Uint8Array): ChannelID {
-    if (id.length != 32) {
+    if (id.length !== 32) {
       throw new TypeError(
         `ChannelID requires 32 bytes, but received ${id.length}`
       )
