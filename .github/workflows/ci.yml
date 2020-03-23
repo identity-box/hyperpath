@@ -39,4 +39,6 @@ jobs:
 
     # Runs a set of commands using the runners shell
     - name: Test
-      run: yarn test:prod
+      run: |
+        yarn
+        yarn test:prod
