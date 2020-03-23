@@ -9,6 +9,15 @@ export class ChannelID {
     return new ChannelID(randomBytes)
   }
 
+  static create(id: Uint8Array): ChannelID {
+    if (id.length != 32) {
+      throw new TypeError(
+        `ChannelID requires 32 bytes, but received ${id.length}`
+      )
+    }
+    return new ChannelID(id)
+  }
+
   private constructor(bytes: Uint8Array) {
     this.bytes = bytes
   }
