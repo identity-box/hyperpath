@@ -1,1 +1,1 @@
-export { createChannel, openChannel } from './src/hyperpath'
+export { createChannel, openChannel } from './src/Main'
