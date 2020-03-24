@@ -6,7 +6,7 @@ describe('HyperPath', () => {
     it('creates channel with an auto-generated id', () => {
       const channel = createChannel()
       expect(channel.id).toBeDefined()
-      expect(channel.id.bytes.length).toBe(32)
+      expect(channel.id.rawBytes.length).toBe(32)
       expect(channel.key?.length).toBe(secretbox.keyLength)
     })
   })
@@ -17,7 +17,7 @@ describe('HyperPath', () => {
 
     it('can be opened with an explicit id', () => {
       const channel = openChannel(id, testKey)
-      expect(channel.id.bytes).toBe(id)
+      expect(channel.id.rawBytes).toBe(id)
     })
 
     it('cannot be opened with invalid id size', () => {

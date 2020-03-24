@@ -16,7 +16,7 @@ export interface Channel {
 }
 
 export class ChannelId {
-  bytes: Uint8Array
+  rawBytes: Uint8Array
 
   static createRandom(): ChannelId {
     const idSize = 32
@@ -34,6 +34,6 @@ export class ChannelId {
   }
 
   private constructor(bytes: Uint8Array) {
-    this.bytes = bytes
+    this.rawBytes = bytes
   }
 }

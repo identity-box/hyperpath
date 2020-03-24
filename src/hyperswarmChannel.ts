@@ -16,7 +16,7 @@ export class HyperSwarmChannel implements Channel {
       this.hyperSwarm.on('connection', (socket, info) => {
         resolve(new HyperSwarmConnectionInfo(info.peerId))
       })
-      this.hyperSwarm.join(this.id.bytes)
+      this.hyperSwarm.join(this.id.rawBytes)
     })
   }
 }
