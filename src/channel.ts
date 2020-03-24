@@ -7,7 +7,7 @@ export interface Channel {
   /**
    *  Unique identifier of the channel.
    */
-  readonly id: ChannelID
+  readonly id: ChannelId
 
   /**
    *  Encryption key in case this is an encrypted channel.
@@ -15,22 +15,22 @@ export interface Channel {
   readonly key: Uint8Array | null
 }
 
-export class ChannelID {
+export class ChannelId {
   bytes: Uint8Array
 
-  static createRandom(): ChannelID {
+  static createRandom(): ChannelId {
     const idSize = 32
     const bytes = randomBytes(idSize)
-    return new ChannelID(bytes)
+    return new ChannelId(bytes)
   }
 
-  static create(id: Uint8Array): ChannelID {
+  static create(id: Uint8Array): ChannelId {
     if (id.length !== 32) {
       throw new TypeError(
         `ChannelID requires 32 bytes, but received ${id.length}`
       )
     }
-    return new ChannelID(id)
+    return new ChannelId(id)
   }
 
   private constructor(bytes: Uint8Array) {

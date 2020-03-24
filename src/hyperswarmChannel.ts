@@ -1,12 +1,12 @@
-import { Channel, ChannelID } from './channel'
+import { Channel, ChannelId } from './channel'
 import { ConnectionInfo } from './connectionInfo'
 
 export class HyperSwarmChannel implements Channel {
-  id: ChannelID
+  id: ChannelId
   key = null
   hyperSwarm: HyperSwarm
 
-  constructor(id: ChannelID, hyperSwarm: HyperSwarm) {
+  constructor(id: ChannelId, hyperSwarm: HyperSwarm) {
     this.id = id
     this.hyperSwarm = hyperSwarm
   }
@@ -22,9 +22,9 @@ export class HyperSwarmChannel implements Channel {
 }
 
 export class HyperSwarmConnectionInfo implements ConnectionInfo {
-  peerId: ChannelID
+  peerId: ChannelId
 
-  constructor(peerId: ChannelID) {
+  constructor(peerId: ChannelId) {
     this.peerId = peerId
   }
 }

@@ -4,10 +4,10 @@ import {
   HyperSwarm,
   Callback
 } from '../src/hyperswarmChannel'
-import { ChannelID } from '../src/channel'
+import { ChannelId } from '../src/channel'
 
 describe('Hyperswarm channel', () => {
-  const channelId = ChannelID.createRandom()
+  const channelId = ChannelId.createRandom()
 
   it('has a connect method', async () => {
     const hyperSwarm = new HyperSwarmStub()
@@ -19,7 +19,7 @@ describe('Hyperswarm channel', () => {
 })
 
 class HyperSwarmStub implements HyperSwarm {
-  peerId = ChannelID.createRandom()
+  peerId = ChannelId.createRandom()
   connectionHandler!: Callback
 
   join(topic: Uint8Array): void {

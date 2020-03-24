@@ -1,11 +1,11 @@
-import { Channel, ChannelID } from './channel'
+import { Channel, ChannelId } from './channel'
 import { secretbox } from 'tweetnacl'
 
 export class EncryptingChannel implements Channel {
   key: Uint8Array
   wrappedChannel: Channel
 
-  get id(): ChannelID {
+  get id(): ChannelId {
     return this.wrappedChannel.id
   }
 

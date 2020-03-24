@@ -1,5 +1,5 @@
-import { ChannelID } from './channel'
+import { ChannelId } from './channel'
 
 export interface ConnectionInfo {
-  peerId: ChannelID
+  peerId: ChannelId
 }
