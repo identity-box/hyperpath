@@ -10,7 +10,7 @@ const pkg = require('./package.json')
 const libraryName = 'hyperpath'
 
 export default {
-  input: `src/${libraryName}.ts`,
+  input: `index.ts`,
   output: [
     { dir: 'dist', name: libraryName, format: 'umd', sourcemap: true },
     { dir: 'dist', format: 'es', sourcemap: true }
