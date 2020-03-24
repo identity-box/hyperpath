@@ -1,6 +1,6 @@
-import { Channel, ChannelId } from './channel'
-import { HyperSwarmChannel, HyperSwarm, Callback } from './hyperswarmChannel'
-import { EncryptingChannel } from './encryptingChannel'
+import { Channel, ChannelId } from './Channel'
+import { HyperSwarmChannel, HyperSwarm } from './HyperSwarmChannel'
+import { EncryptingChannel } from './EncryptingChannel'
 import { randomBytes, secretbox } from 'tweetnacl'
 
 export function createChannel(): Channel {

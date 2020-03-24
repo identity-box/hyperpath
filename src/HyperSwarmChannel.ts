@@ -1,5 +1,5 @@
-import { Channel, ChannelId } from './channel'
-import { ConnectionInfo } from './connectionInfo'
+import { Channel, ChannelId } from './Channel'
+import { ConnectionInfo } from './ConnectionInfo'
 
 export class HyperSwarmChannel implements Channel {
   id: ChannelId

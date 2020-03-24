@@ -1,4 +1,4 @@
-import { createChannel, openChannel, setSwarm } from '../src/hyperpath'
+import { createChannel, openChannel, setSwarm } from '../src/HyperPath'
 import { randomBytes, secretbox } from 'tweetnacl'
 import { HyperSwarmStub } from './HyperSwarmStub'
 

@@ -2,8 +2,8 @@ import {
   HyperSwarmConnectionInfo,
   HyperSwarm,
   Callback
-} from '../src/hyperswarmChannel'
-import { ChannelId } from '../src/channel'
+} from '../src/HyperSwarmChannel'
+import { ChannelId } from '../src/Channel'
 
 export class HyperSwarmStub implements HyperSwarm {
   peerId = ChannelId.createRandom()

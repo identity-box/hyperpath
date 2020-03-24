@@ -1,8 +1,8 @@
 import {
   HyperSwarmChannel,
   HyperSwarmConnectionInfo
-} from '../src/hyperswarmChannel'
-import { ChannelId } from '../src/channel'
+} from '../src/HyperSwarmChannel'
+import { ChannelId } from '../src/Channel'
 import { HyperSwarmStub } from './HyperSwarmStub'
 
 describe('Hyperswarm channel', () => {

@@ -1,4 +1,4 @@
-import { Channel, ChannelId } from './channel'
+import { Channel, ChannelId } from './Channel'
 import { secretbox } from 'tweetnacl'
 
 export class EncryptingChannel implements Channel {

@@ -1,4 +1,4 @@
-import { ChannelId } from './channel'
+import { ChannelId } from './Channel'
 
 export interface ConnectionInfo {
   peerId: ChannelId
