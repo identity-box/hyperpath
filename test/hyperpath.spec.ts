@@ -1,7 +1,12 @@
-import { createChannel, openChannel } from '../src/hyperpath'
+import { createChannel, openChannel, setSwarm } from '../src/hyperpath'
 import { randomBytes, secretbox } from 'tweetnacl'
+import { HyperSwarmStub } from './HyperSwarmStub'
 
 describe('HyperPath', () => {
+  beforeEach(() => {
+    setSwarm(new HyperSwarmStub())
+  })
+
   describe('create new channel', () => {
     it('creates channel with an auto-generated id', () => {
       const channel = createChannel()
