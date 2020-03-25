@@ -1,7 +1,8 @@
 import { Channel, ChannelId } from './Channel'
-import { HyperSwarmChannel, HyperSwarm } from './HyperSwarmChannel'
+import { HyperSwarmChannel } from './HyperSwarmChannel'
 import { EncryptingChannel } from './EncryptingChannel'
 import { randomBytes, secretbox } from 'tweetnacl'
+import { HyperSwarm } from 'hyperswarm'
 
 export function createChannel(): Channel {
   const channelId = ChannelId.createRandom()

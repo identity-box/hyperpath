@@ -1,5 +1,6 @@
 import { Channel, ChannelId } from './Channel'
 import { ConnectionInfo } from './ConnectionInfo'
+import { HyperSwarm } from 'hyperswarm'
 
 export class HyperSwarmChannel implements Channel {
   id: ChannelId
@@ -27,15 +28,4 @@ export class HyperSwarmConnectionInfo implements ConnectionInfo {
   constructor(peerId: ChannelId) {
     this.peerId = peerId
   }
-}
-
-type EventType = 'connection'
-
-export interface Callback {
-  (socket: any, info: any): void
-}
-
-export interface HyperSwarm {
-  join(topic: Uint8Array): void
-  on(event: EventType, callback: Callback): void
 }

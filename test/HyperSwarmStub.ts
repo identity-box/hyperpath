@@ -1,8 +1,5 @@
-import {
-  HyperSwarmConnectionInfo,
-  HyperSwarm,
-  Callback
-} from '../src/HyperSwarmChannel'
+import { HyperSwarmConnectionInfo } from '../src/HyperSwarmChannel'
+import { HyperSwarm, Callback } from 'hyperswarm'
 import { ChannelId } from '../src/Channel'
 
 export class HyperSwarmStub implements HyperSwarm {
