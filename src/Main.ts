@@ -13,7 +13,10 @@ import { randomBytes, secretbox } from 'tweetnacl'
  * has something to do with the combination of how Typescript
  * declaration file work, with the way hyperswarm exports a function,
  * and with rollup. Bottom line: this doesn't look very nice, but it
- * works; change at your own peril. :)
+ * works; change at your own peril. :) Oh and this should be the only
+ * file that needs this dual import, because only here the actual
+ * `hyperswarm()` function needs to be called, other files should only
+ * need the interface declaration.
  */
 const hyperswarm = require('hyperswarm')
 import { HyperSwarm } from 'hyperswarm'
