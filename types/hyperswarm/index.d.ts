@@ -1,12 +1,15 @@
-export as namespace hyperswarm
+export = hyperswarm
 
-type EventType = 'connection'
+declare function hyperswarm(): hyperswarm.HyperSwarm
 
-export interface Callback {
-  (socket: any, info: any): void
-}
+declare namespace hyperswarm {
+  type EventType = 'connection'
 
-export interface HyperSwarm {
-  join(topic: Uint8Array): void
-  on(event: EventType, callback: Callback): void
+  export interface Callback {
+    (socket: any, info: any): void
+  }
+  interface HyperSwarm {
+    join(topic: Uint8Array): void
+    on(event: EventType, callback: Callback): void
+  }
 }
