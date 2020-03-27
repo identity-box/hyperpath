@@ -1,4 +1,3 @@
-import { create } from 'libp2p'
 import WebSockets from 'libp2p-websockets'
 import MPLEX from 'libp2p-mplex'
 import KadDHT from 'libp2p-kad-dht'
@@ -11,7 +10,7 @@ export class LibP2PChannel implements Channel {
   node: ILibP2P | null = null
   nodeCreator: NodeCreator
 
-  constructor(id: ChannelId, nodeCreator: NodeCreator = create) {
+  constructor(id: ChannelId, nodeCreator: NodeCreator) {
     this.id = id
     this.nodeCreator = nodeCreator
   }

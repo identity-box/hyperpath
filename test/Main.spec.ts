@@ -1,7 +1,12 @@
-import { createChannel, openChannel } from '../src/Main'
+import { createChannel, openChannel, setNodeCreator } from '../src/Main'
 import { randomBytes, secretbox } from 'tweetnacl'
+import { stubCreator } from './LibP2PStub'
 
 describe('HyperPath', () => {
+  beforeEach(() => {
+    setNodeCreator(stubCreator)
+  })
+
   describe('create new channel', () => {
     it('creates channel with an auto-generated id', () => {
       const channel = createChannel()
