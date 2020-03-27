@@ -1,6 +1,6 @@
 # HyperPath
 
-![CI](https://github.com/identity-box/hyperpath/workflows/CI/badge.svg)
+[![CI](https://github.com/identity-box/hyperpath/workflows/CI/badge.svg)][ci]
 
 ## Secure peer-to-peer JSON-RPC channel
 
@@ -12,6 +12,7 @@ and is currently work in progress.
 
 This repository can be found on [github][github-repo] and [git-ssb][ssb-repo].
 
+[ci]: https://github.com/identity-box/hyperpath/actions?query=workflow%3ACI
 [telepath-url]: https://github.com/identity-box/identity-box/tree/master/workspaces/telepath
 [git-repo]: https://github.com/identity-box/hyperpath
 [ssb-repo]: http://git.scuttlebot.io/%251U%2BJgFizEZ4MtNPLul5RubrkyAH9yUKzvtCOiF3UheY%3D.sha256
