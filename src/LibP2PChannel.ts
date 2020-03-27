@@ -1,4 +1,4 @@
-import { create, LibP2P } from 'libp2p'
+import { create } from 'libp2p'
 import WebSockets from 'libp2p-websockets'
 import MPLEX from 'libp2p-mplex'
 import KadDHT from 'libp2p-kad-dht'
