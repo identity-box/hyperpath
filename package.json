@@ -75,7 +75,6 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "hyperswarm": "^2.8.0",
     "tweetnacl": "^1.0.3"
   }
 }

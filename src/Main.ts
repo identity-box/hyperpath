@@ -1,38 +1,23 @@
 import { Channel, ChannelId } from './Channel'
-import { HyperSwarmChannel } from './HyperSwarmChannel'
 import { EncryptingChannel } from './EncryptingChannel'
 import { randomBytes, secretbox } from 'tweetnacl'
-
-/* Below imports look real strange I'm sure. The first one imports
- * the real hyperswarm module (through the type declarations in
- * `types/hyperswarm/index.d.ts`). I also want to have an interface
- * that it conforms to, so that I can implement a stub based on that
- * same interface.
- *
- * I haven't been able to do that with one import statement. This
- * has something to do with the combination of how Typescript
- * declaration file work, with the way hyperswarm exports a function,
- * and with rollup. Bottom line: this doesn't look very nice, but it
- * works; change at your own peril. :) Oh and this should be the only
- * file that needs this dual import, because only here the actual
- * `hyperswarm()` function needs to be called, other files should only
- * need the interface declaration.
- */
-const hyperswarm = require('hyperswarm')
-import { HyperSwarm } from 'hyperswarm'
 
 export function createChannel(): Channel {
   const channelId = ChannelId.createRandom()
   const key = randomBytes(secretbox.keyLength)
-  return new EncryptingChannel(key, new HyperSwarmChannel(channelId, swarm))
+  return new EncryptingChannel(key, new DummyChannel(channelId))
 }
 
 export function openChannel(id: Uint8Array, key: Uint8Array): Channel {
   const channelId = ChannelId.create(id)
-  return new EncryptingChannel(key, new HyperSwarmChannel(channelId, swarm))
+  return new EncryptingChannel(key, new DummyChannel(channelId))
 }
 
-let swarm: HyperSwarm = hyperswarm()
-export function setSwarm(newSwarm: HyperSwarm) {
-  swarm = newSwarm
+class DummyChannel implements Channel {
+  id: ChannelId
+  key: Uint8Array | null = null
+
+  constructor(id: ChannelId) {
+    this.id = id
+  }
 }
