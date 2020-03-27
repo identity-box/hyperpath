@@ -1,15 +1,14 @@
-HyperPath
-=========
+# HyperPath
 
-Secure peer-to-peer JSON-RPC channel
-------------------------------------
+![CI](https://github.com/identity-box/hyperpath/workflows/CI/badge.svg)
+
+## Secure peer-to-peer JSON-RPC channel
 
 HyperPath implements a secure channel between two peers, on top of
 [undecided]. This is going to replace [TelePath][telepath-url]
 and is currently work in progress.
 
-Source
-------
+## Source
 
 This repository can be found on [github][github-repo] and [git-ssb][ssb-repo].
 
