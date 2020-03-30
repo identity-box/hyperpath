@@ -6,7 +6,7 @@ describe('LibP2PChannel', () => {
   const channelId = ChannelId.createRandom()
 
   it('can be constructed with a default node creator', () => {
-    expect(new LibP2PChannel(channelId)).toBeDefined()
+    expect(new LibP2PChannel(channelId, stubCreator)).toBeDefined()
   })
 
   it('bla', async () => {
