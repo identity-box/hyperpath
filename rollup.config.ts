@@ -24,18 +24,24 @@ export default {
 
     // Allow json resolution
     json(),
-    // Compile TypeScript files
-    typescript(),
+
     // Allow bundling cjs modules (unlike webpack, rollup doesn't understand cjs)
+    // Allow node_modules resolution, so you can use 'external' to control
+    // which external modules to include in the bundle
+    // https://github.com/rollup/rollup-plugin-node-resolve#usage
+    resolve(),
+
     commonjs({
       namedExports: {
         tweetnacl: ['randomBytes', 'secretbox']
       }
     }),
-    // Allow node_modules resolution, so you can use 'external' to control
-    // which external modules to include in the bundle
-    // https://github.com/rollup/rollup-plugin-node-resolve#usage
-    resolve(),
+
+    // Compile TypeScript files
+    typescript({
+      // Use local install of typescript to make sure it is the right one
+      typescript: require('typescript')
+    }),
 
     // Resolve source maps to the original source
     sourceMaps()
