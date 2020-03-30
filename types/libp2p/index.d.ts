@@ -1,15 +1,20 @@
-declare class LibP2P {
+// export as namespace Libp2p
+
+export = Libp2p
+
+declare class Libp2p {
   start(): Promise<void>
+  static create(options: Libp2p.CreateOptions): Promise<Libp2p>
 }
 
-export type Module = any
+declare namespace Libp2p {
+  export interface Module {}
 
-export type CreateOptions = {
-  modules: {
-    transport: [Module]
-    streamMuxer: [Module]
-    peerDiscovery: [Module]
+  export interface CreateOptions {
+    modules: {
+      transport: [Module]
+      streamMuxer: [Module]
+      peerDiscovery: [Module]
+    }
   }
 }
-
-export function create(options: CreateOptions): Promise<LibP2P>
