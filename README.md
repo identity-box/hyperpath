@@ -18,23 +18,12 @@ For now, this library depends on a [forked js-libp2p][fork]. This fork slightly
 changes the exports of libp2p so that it works with Rollup. As soon as the
 [pull request][pr] is approved and released, this fork is no longer needed.
 
-So for now, when building, please check out the [fork][fork], and build it:
+So for now this fork needs to be built and linked. It is included in this
+repository as a submodule. To build & link it, you can use the script:
 
 ```
-git clone git@github.com:Charterhouse/js-libp2p.git
-cd js-libp2p
-npm install
-npm run build
-yarn link
+./devsetup.sh
 ```
-
-Then move over to your HyperPath working copy, and type:
-
-```
-yarn link libp2p
-```
-
-This will cause the local forked clone to be used instead of the one from NPM.
 
 [ci]: https://github.com/identity-box/hyperpath/actions?query=workflow%3ACI
 [telepath-url]: https://github.com/identity-box/identity-box/tree/master/workspaces/telepath
