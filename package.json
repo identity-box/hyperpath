@@ -32,6 +32,9 @@
       "tsx",
       "js"
     ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/vendor/"
+    ],
     "transformIgnorePatterns": [
       "/node_modules/",
       ".*js-libp2p.*"
