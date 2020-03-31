@@ -16,4 +16,8 @@ export class EncryptingChannel implements Channel {
     this.key = key
     this.wrappedChannel = wrappedChannel
   }
+
+  async connect() {
+    await this.wrappedChannel.connect()
+  }
 }

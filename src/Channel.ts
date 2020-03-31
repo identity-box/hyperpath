@@ -13,6 +13,8 @@ export interface Channel {
    *  Encryption key in case this is an encrypted channel.
    */
   readonly key: Uint8Array | null
+
+  connect(): Promise<void>
 }
 
 export class ChannelId {
