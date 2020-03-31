@@ -21,5 +21,9 @@ module.exports = {
     ]
   },
 
-  plugins: [new ForkTsCheckerWebpackPlugin()]
+  plugins: [new ForkTsCheckerWebpackPlugin()],
+
+  devServer: {
+    contentBase: path.join(__dirname, 'demo')
+  }
 }
