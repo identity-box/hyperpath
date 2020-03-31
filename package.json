@@ -21,43 +21,9 @@
     "build": "yarn build:types && yarn build:js && yarn build:doc",
     "build:doc": "typedoc --out docs --target es6 --theme minimal --mode file src",
     "demo": "webpack-dev-server",
-    "test": "yarn lint && jest --coverage",
-    "test:watch": "yarn lint && jest --coverage --watch",
+    "test": "yarn lint && yarn jest --coverage",
+    "test:watch": "yarn lint && yarn jest --coverage --watch",
     "test:prod": "yarn lint && yarn test --no-cache"
-  },
-  "jest": {
-    "transform": {
-      ".(ts|tsx)": "ts-jest"
-    },
-    "testEnvironment": "node",
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "testPathIgnorePatterns": [
-      "<rootDir>/vendor/"
-    ],
-    "transformIgnorePatterns": [
-      "/node_modules/",
-      ".*js-libp2p.*"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/test/"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 90,
-        "functions": 95,
-        "lines": 95,
-        "statements": 95
-      }
-    },
-    "collectCoverageFrom": [
-      "src/*.{js,ts}"
-    ]
   },
   "prettier": {
     "semi": false,
@@ -70,11 +36,14 @@
     "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
     "@babel/preset-typescript": "^7.9.0",
+    "@types/jest": "^25.1.4",
     "@types/node": "^13.9.1",
     "babel-loader": "^8.1.0",
     "fork-ts-checker-webpack-plugin": "^4.1.2",
+    "jest": "^25.2.4",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.2",
+    "ts-jest": "^25.3.0",
     "tslint": "^6.1.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-config-standard": "^9.0.0",
