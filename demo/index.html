@@ -1,7 +1,42 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
-  <head></head>
+  <head>
+    <style type="text/css">
+      #log {
+        background-color: #ddd;
+        border: 1px solid #aaa;
+      }
+      .timestamp {
+        font-family: monospace;
+      }
+      .timestamp::before {
+        content: '[';
+      }
+      .timestamp::after {
+        content: ']';
+      }
+    </style>
+  </head>
   <body>
+    <hr />
+    <p>Log:</p>
+    <div id="log" />
     <script src="/bundle.js"></script>
+    <script type="text/javascript">
+      function log(...args) {
+        let txt = document.getElementById('log').innerHTML
+        txt =
+          "<span class='timestamp'>" +
+          new Date().toLocaleString() +
+          '</span> ' +
+          args.join(' ') +
+          '<br />' +
+          txt
+        document.getElementById('log').innerHTML = txt
+      }
+
+      log('loaded')
+      log('channel:', hyperpath.createChannel())
+    </script>
   </body>
 </html>
