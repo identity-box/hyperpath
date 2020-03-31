@@ -23,6 +23,8 @@ module.exports = {
 
   plugins: [new ForkTsCheckerWebpackPlugin()],
 
+  devtool: 'eval-source-map',
+
   devServer: {
     contentBase: path.join(__dirname, 'demo')
   }
