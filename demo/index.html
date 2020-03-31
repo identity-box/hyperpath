@@ -36,7 +36,9 @@
       }
 
       log('loaded')
-      log('channel:', hyperpath.createChannel())
+      const channel = hyperpath.createChannel()
+      log('channel:', channel)
+      channel.connect()
     </script>
   </body>
 </html>
