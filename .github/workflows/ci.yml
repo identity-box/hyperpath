@@ -15,7 +15,6 @@ jobs:
       - name: Build and test
         run: |
           yarn
-          ./devsetup.sh
           yarn build
           yarn test
           yarn test:prod
