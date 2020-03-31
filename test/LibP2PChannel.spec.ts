@@ -9,7 +9,7 @@ describe('LibP2PChannel', () => {
     expect(new LibP2PChannel(channelId, stubCreator)).toBeDefined()
   })
 
-  it('bla', async () => {
+  it('when there is no node it does not throw', async () => {
     const channel = new LibP2PChannel(
       channelId,
       () => new Promise(resolve => resolve(undefined))
