@@ -20,7 +20,7 @@
     "build:js": "webpack --mode=production",
     "build": "npm run build:types && npm run build:js",
     "build:doc": "typedoc --out docs --target es6 --theme minimal --mode file src",
-    "start": "webpack-dev-server",
+    "demo": "webpack-dev-server",
     "test": "yarn lint && jest --coverage",
     "test:watch": "yarn lint && jest --coverage --watch",
     "test:prod": "yarn lint && yarn test --no-cache"
