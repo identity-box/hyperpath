@@ -6589,7 +6589,7 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-peer-id@^0.13.3, peer-id@^0.13.4, peer-id@^0.13.5, peer-id@~0.13.2, peer-id@~0.13.5:
+peer-id@^0.13.11, peer-id@^0.13.3, peer-id@^0.13.4, peer-id@^0.13.5, peer-id@~0.13.2, peer-id@~0.13.5:
   version "0.13.11"
   resolved "https://registry.yarnpkg.com/peer-id/-/peer-id-0.13.11.tgz#d3b11e45d80839363aeac0e4fa1758368e3b93cd"
   integrity sha512-CWDPr4ppKslARSe1qfMlGjTiDqL4Hl25Qyfq43PEPAeRD2meI8B2HfxO0NMMB8BUhNvNGPeDAwhLptyB9jVwkw==
@@ -6601,7 +6601,7 @@ peer-id@^0.13.3, peer-id@^0.13.4, peer-id@^0.13.5, peer-id@~0.13.2, peer-id@~0.1
     multihashes "~0.4.15"
     protons "^1.0.2"
 
-peer-info@^0.17.0, peer-info@~0.17.0:
+peer-info@^0.17.0, peer-info@^0.17.5, peer-info@~0.17.0:
   version "0.17.5"
   resolved "https://registry.yarnpkg.com/peer-info/-/peer-info-0.17.5.tgz#80afc709e03069cf94a29d8fcfa0426140fa7b69"
   integrity sha512-ebbbnvdCnb0onWuW+QNXO4KvLPuQ+kih3zezhov2uxHqA6VLbtzMUyQ06IHtwYLr50AYYWyBOSn17g4zEBsFpw==
