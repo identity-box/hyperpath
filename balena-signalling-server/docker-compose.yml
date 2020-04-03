@@ -1,0 +1,8 @@
+version: "2"
+services:
+  star-server:
+    build:
+      context: .
+    network_mode: host
+    ports:
+      - "9090:9090"
