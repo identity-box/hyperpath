@@ -2,6 +2,8 @@
   "cSpell.words": [
     "libp",
     "mplex",
+    "multiaddr",
+    "multiaddrs",
     "muxer",
     "secretbox",
     "tweetnacl",
