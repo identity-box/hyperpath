@@ -9,8 +9,8 @@ title Connecting two parties through HyperPath
 
 actor alice as "Alice"
 participant webapp_alice as "Alice's\nweb app"
-participant hyperpath_alice as "Alice's\nhyperpath"
-participant hyperpath_bob as "Bob's\nhyperpath"
+participant hyperpath_alice as "Alice's\nHyperPath"
+participant hyperpath_bob as "Bob's\nHyperPath"
 participant webapp_bob as "Bob's\nweb app"
 actor bob as "Bob"
 
@@ -36,7 +36,7 @@ webapp_alice -> hyperpath_alice: start channel
 activate hyperpath_alice
 activate webapp_alice
 hyperpath_alice -> hyperpath_alice: handle ""/hyperpath/1.0.0""
-note right: Alices's hyperpath is the listener
+note right: Alices's HyperPath is the listener
 
 bob -> webapp_bob: open camera
 activate webapp_bob
@@ -60,14 +60,14 @@ activate hyperpath_bob
 
 activate webapp_bob
 note over hyperpath_bob
-  Hyperpath knows whether to listen or dial based
+  HyperPath knows whether to listen or dial based
   on the parameters to ""createChannel"". If only
   the own peer id is given, it will listen. If the
   desired remote peer id is given, it will dial.
 end note
 
 hyperpath_bob -> hyperpath_bob: ""dialProtocol(alice_id, /hyperpath/1.0.0)""
-note left: Bob's hyperpath is the dialer
+note left: Bob's HyperPath is the dialer
 
 hyperpath_bob -// hyperpath_alice: send identify msg over stream:\n"I am Bob [bob_id]"
 activate hyperpath_alice
@@ -86,7 +86,7 @@ deactivate webapp_alice
 deactivate webapp_bob
 
 note over webapp_alice, webapp_bob
-  Alice and Bob can now communicate over hyperpath
+  Alice and Bob can now communicate over HyperPath
   using the API for sending and receiving messages.
 end note
 
