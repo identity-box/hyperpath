@@ -41,7 +41,7 @@ note right: Alices's HyperPath is the listener
 bob -> webapp_bob: open camera
 activate webapp_bob
 webapp_bob -> webapp_bob: scan QR code on\nAlice's screen
-webapp_bob --> webapp_bob: QR code with\nsession key
+webapp_bob --> webapp_bob: QR code with\nsession key\nand ""alice_id""
 opt bob has no peer id yet
   webapp_bob -> hyperpath_bob: create peer id
   activate hyperpath_bob
