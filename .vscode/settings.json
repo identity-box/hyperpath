@@ -5,6 +5,7 @@
     "muxer",
     "secretbox",
     "tweetnacl",
+    "webrtc",
     "websockets"
   ]
 }
