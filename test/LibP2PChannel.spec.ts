@@ -1,6 +1,8 @@
 import { LibP2PChannel } from '../src/LibP2PChannel'
 import { ChannelId } from '../src/Channel'
 import { LibP2PStub, stubCreator } from './LibP2PStub'
+import PeerInfo from 'peer-info'
+import PeerId from 'peer-id'
 
 describe('LibP2PChannel', () => {
   const channelId = ChannelId.createRandom()
@@ -17,13 +19,52 @@ describe('LibP2PChannel', () => {
     await expect(channel.connect()).resolves.toBe(undefined)
   })
 
-  it('has a connect method', async () => {
-    const libp2pStub = new LibP2PStub()
-    const channel = new LibP2PChannel(
-      channelId,
-      () => new Promise(resolve => resolve(libp2pStub))
-    )
-    await channel.connect()
-    expect(libp2pStub.started).toBeTruthy()
+  describe('after connecting', () => {
+    let libp2pStub: LibP2PStub
+    let channel: LibP2PChannel
+    let logSpy: LogSpy
+
+    beforeEach(async () => {
+      libp2pStub = new LibP2PStub()
+      channel = new LibP2PChannel(
+        channelId,
+        () => new Promise(resolve => resolve(libp2pStub))
+      )
+      logSpy = new LogSpy()
+      channel.log = (msg, args) => logSpy.log(msg, args)
+      await channel.connect()
+    })
+
+    it('has started', () => {
+      expect(libp2pStub.started).toBeTruthy()
+    })
+
+    it('can handle discovered peers', () => {
+      const peerInfo = new PeerInfo(new PeerId(Buffer.alloc(1, 2)))
+      libp2pStub.emit('peer:discovery', peerInfo)
+      expect(logSpy.msg).toEqual('discovery')
+    })
+
+    it('can handle connected peers', () => {
+      const peerInfo = new PeerInfo(new PeerId(Buffer.alloc(1, 3)))
+      libp2pStub.emit('peer:connect', peerInfo)
+      expect(logSpy.msg).toEqual('connect')
+    })
+
+    it('can handle connected peers', () => {
+      const peerInfo = new PeerInfo(new PeerId(Buffer.alloc(1, 4)))
+      libp2pStub.emit('peer:disconnect', peerInfo)
+      expect(logSpy.msg).toEqual('disconnect')
+    })
   })
 })
+
+class LogSpy {
+  msg: String | undefined
+  args: String[] | undefined
+
+  log(msg: String, args: String[]): void {
+    this.msg = msg
+    this.args = args
+  }
+}
