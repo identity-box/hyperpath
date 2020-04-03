@@ -1,0 +1,93 @@
+@startuml connecting
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam dpi 300
+hide footbox
+
+title Connecting two parties through HyperPath
+
+actor alice as "Alice"
+participant webapp_alice as "Alice's\nweb app"
+participant hyperpath_alice as "Alice's\nhyperpath"
+participant hyperpath_bob as "Bob's\nhyperpath"
+participant webapp_bob as "Bob's\nweb app"
+actor bob as "Bob"
+
+alice -> webapp_alice: offer connection to Bob
+activate webapp_alice
+
+opt alice has no peer id yet
+webapp_alice -> hyperpath_alice: create peer id
+activate hyperpath_alice
+hyperpath_alice --> webapp_alice: ""alice_id""
+deactivate hyperpath_alice
+end
+
+webapp_alice -> hyperpath_alice: ""createChannel(alice_id, …)""
+activate webapp_alice
+activate hyperpath_alice
+hyperpath_alice -> hyperpath_alice: create random\nsession key
+hyperpath_alice --> webapp_alice: channel with key
+deactivate hyperpath_alice
+deactivate webapp_alice
+webapp_alice -> webapp_alice: show QR code\nwith channel key\nand ""alice_id""
+webapp_alice -> hyperpath_alice: start channel
+activate hyperpath_alice
+activate webapp_alice
+hyperpath_alice -> hyperpath_alice: handle ""/hyperpath/1.0.0""
+note right: Alices's hyperpath is the listener
+
+bob -> webapp_bob: open camera
+activate webapp_bob
+webapp_bob -> webapp_bob: scan QR code on\nAlice's screen
+webapp_bob --> webapp_bob: QR code with\nsession key
+opt bob has no peer id yet
+  webapp_bob -> hyperpath_bob: create peer id
+  activate hyperpath_bob
+  hyperpath_bob --> webapp_bob: ""bob_id""
+  deactivate hyperpath_bob
+end
+
+webapp_bob -> hyperpath_bob: ""createChannel(bob_id, key, alice_id)""
+activate webapp_bob
+activate hyperpath_bob
+hyperpath_bob --> webapp_bob: channel
+deactivate hyperpath_bob
+deactivate webapp_bob
+webapp_bob -> hyperpath_bob: start channel
+activate hyperpath_bob
+
+activate webapp_bob
+note over hyperpath_bob
+  Hyperpath knows whether to listen or dial based
+  on the parameters to ""createChannel"". If only
+  the own peer id is given, it will listen. If the
+  desired remote peer id is given, it will dial.
+end note
+
+hyperpath_bob -> hyperpath_bob: ""dialProtocol(alice_id, /hyperpath/1.0.0)""
+note left: Bob's hyperpath is the dialer
+
+hyperpath_bob -// hyperpath_alice: send identify msg over stream:\n"I am Bob [bob_id]"
+activate hyperpath_alice
+hyperpath_alice -> hyperpath_alice: decrypt message
+alt decrypt fails
+  hyperpath_alice -> hyperpath_alice: close stream
+  hyperpath_alice --> webapp_alice: report error???
+else decrypt succeeds
+  hyperpath_alice -// hyperpath_bob: send identify msg over stream:\n"I am Alice [alice_id]"
+  hyperpath_alice --> webapp_alice: connection succeeded
+deactivate hyperpath_alice
+  hyperpath_bob ---> webapp_bob: connection succeeded
+end
+
+deactivate webapp_alice
+deactivate webapp_bob
+
+note over webapp_alice, webapp_bob
+  Alice and Bob can now communicate over hyperpath
+  using the API for sending and receiving messages.
+end note
+
+@enduml
