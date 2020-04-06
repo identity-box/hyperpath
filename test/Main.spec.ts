@@ -18,6 +18,10 @@ describe('HyperPath', () => {
       expect(channel.channelId).toBeDefined()
       expect(channel.channelId.rawBytes.length).toBe(32)
       expect(channel.key?.length).toBe(secretbox.keyLength)
+    })
+
+    it(`requires the client's peer id`, () => {
+      const channel = createChannel(myId)
       const innermostChannel = findInnermostChannel(channel) as LibP2PChannel
       expect(innermostChannel.myId).toBe(myId)
     })
