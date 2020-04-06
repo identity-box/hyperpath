@@ -6,15 +6,19 @@ import { Channel, ChannelId } from './Channel'
 import { ILibP2P, NodeCreator } from './ILibP2P'
 import Bootstrap from 'libp2p-bootstrap'
 import multiaddr from 'multiaddr'
+import PeerId from 'peer-id'
 
 export class LibP2PChannel implements Channel {
   id: ChannelId
-  key: Uint8Array | null = null
+  key = null
   node: ILibP2P | null = null
+  wrappedChannel = null
   nodeCreator: NodeCreator
   log = console.debug
+  myId: PeerId
 
-  constructor(id: ChannelId, nodeCreator: NodeCreator) {
+  constructor(myId: PeerId, id: ChannelId, nodeCreator: NodeCreator) {
+    this.myId = myId
     this.id = id
     this.nodeCreator = nodeCreator
   }

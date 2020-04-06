@@ -5,14 +5,16 @@ import PeerInfo from 'peer-info'
 import PeerId from 'peer-id'
 
 describe('LibP2PChannel', () => {
+  const myId = new PeerId(Buffer.alloc(1, 1))
   const channelId = ChannelId.createRandom()
 
   it('can be constructed with a default node creator', () => {
-    expect(new LibP2PChannel(channelId, stubCreator)).toBeDefined()
+    expect(new LibP2PChannel(myId, channelId, stubCreator)).toBeDefined()
   })
 
   it('when there is no node it does not throw', async () => {
     const channel = new LibP2PChannel(
+      myId,
       channelId,
       () => new Promise(resolve => resolve(undefined))
     )
@@ -27,6 +29,7 @@ describe('LibP2PChannel', () => {
     beforeEach(async () => {
       libp2pStub = new LibP2PStub()
       channel = new LibP2PChannel(
+        myId,
         channelId,
         () => new Promise(resolve => resolve(libp2pStub))
       )

@@ -5,6 +5,7 @@ class ChannelSpy implements Channel {
   id: ChannelId
   key: Uint8Array = null
   connectCalled = false
+  wrappedChannel = null
 
   constructor(id: ChannelId) {
     this.id = id

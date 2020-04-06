@@ -4,20 +4,25 @@ import { randomBytes, secretbox } from 'tweetnacl'
 import Libp2p from 'libp2p'
 import { LibP2PChannel } from './LibP2PChannel'
 import { NodeCreator } from './ILibP2P'
+import PeerId from 'peer-id'
 
-export function createChannel(): Channel {
+export function createChannel(myId: PeerId): Channel {
   const channelId = ChannelId.createRandom()
   const key = randomBytes(secretbox.keyLength)
-  return new EncryptingChannel(key, innerChannel(channelId))
+  return new EncryptingChannel(key, createLibp2pChannel(myId, channelId))
 }
 
-export function openChannel(id: Uint8Array, key: Uint8Array): Channel {
+export function openChannel(
+  myId: PeerId,
+  id: Uint8Array,
+  key: Uint8Array
+): Channel {
   const channelId = ChannelId.create(id)
-  return new EncryptingChannel(key, innerChannel(channelId))
+  return new EncryptingChannel(key, createLibp2pChannel(myId, channelId))
 }
 
-function innerChannel(channelId: ChannelId): Channel {
-  return new LibP2PChannel(channelId, nodeCreator)
+function createLibp2pChannel(myId: PeerId, channelId: ChannelId): Channel {
+  return new LibP2PChannel(myId, channelId, nodeCreator)
 }
 
 let nodeCreator = Libp2p.create

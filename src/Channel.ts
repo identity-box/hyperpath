@@ -14,6 +14,11 @@ export interface Channel {
    */
   readonly key: Uint8Array | null
 
+  /**
+   *  A channel can wrap another channel to add functionality.
+   */
+  readonly wrappedChannel: Channel | null
+
   connect(): Promise<void>
 }
 
