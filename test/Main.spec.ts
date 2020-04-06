@@ -15,8 +15,8 @@ describe('HyperPath', () => {
   describe('create new channel', () => {
     it('creates channel with an auto-generated id', () => {
       const channel = createChannel(myId)
-      expect(channel.id).toBeDefined()
-      expect(channel.id.rawBytes.length).toBe(32)
+      expect(channel.channelId).toBeDefined()
+      expect(channel.channelId.rawBytes.length).toBe(32)
       expect(channel.key?.length).toBe(secretbox.keyLength)
       const innermostChannel = findInnermostChannel(channel) as LibP2PChannel
       expect(innermostChannel.myId).toBe(myId)
@@ -29,7 +29,7 @@ describe('HyperPath', () => {
 
     it('can be opened with an explicit id', () => {
       const channel = openChannel(myId, channelId, testKey)
-      expect(channel.id.rawBytes).toBe(channelId)
+      expect(channel.channelId.rawBytes).toBe(channelId)
     })
 
     it('cannot be opened with invalid id size', () => {

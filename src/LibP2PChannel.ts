@@ -9,7 +9,7 @@ import multiaddr from 'multiaddr'
 import PeerId from 'peer-id'
 
 export class LibP2PChannel implements Channel {
-  id: ChannelId
+  channelId: ChannelId
   key = null
   node: ILibP2P | null = null
   wrappedChannel = null
@@ -19,7 +19,7 @@ export class LibP2PChannel implements Channel {
 
   constructor(myId: PeerId, id: ChannelId, nodeCreator: NodeCreator) {
     this.myId = myId
-    this.id = id
+    this.channelId = id
     this.nodeCreator = nodeCreator
   }
 

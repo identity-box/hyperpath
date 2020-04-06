@@ -7,7 +7,7 @@ export interface Channel {
   /**
    *  Unique identifier of the channel.
    */
-  readonly id: ChannelId
+  readonly channelId: ChannelId
 
   /**
    *  Encryption key in case this is an encrypted channel.

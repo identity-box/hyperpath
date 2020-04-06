@@ -5,8 +5,8 @@ export class EncryptingChannel implements Channel {
   key: Uint8Array
   wrappedChannel: Channel
 
-  get id(): ChannelId {
-    return this.wrappedChannel.id
+  get channelId(): ChannelId {
+    return this.wrappedChannel.channelId
   }
 
   constructor(key: Uint8Array, wrappedChannel: Channel) {
