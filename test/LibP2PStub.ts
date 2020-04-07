@@ -9,6 +9,8 @@ export class LibP2PStub implements ILibP2P {
   started = false
   handledProtocol?: string
   protocolHandler?: (result: { stream: any }) => void
+  dialedProtocols: string[] = []
+  dialedRemote?: PeerInfo
 
   start(): Promise<void> {
     return new Promise(resolve => {
@@ -38,6 +40,8 @@ export class LibP2PStub implements ILibP2P {
     protocols: string[]
   ): Promise<{ stream: any }> {
     return new Promise(resolve => {
+      this.dialedRemote = remote
+      this.dialedProtocols = protocols
       resolve()
     })
   }

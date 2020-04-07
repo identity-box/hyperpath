@@ -8,6 +8,7 @@ import Bootstrap from 'libp2p-bootstrap'
 import multiaddr from 'multiaddr'
 import PeerId from 'peer-id'
 import { CreateOptions } from 'libp2p'
+import PeerInfo from 'peer-info'
 
 const signallingServer = '127.0.0.1'
 export const protocol = '/hyperpath/1.0.0'
@@ -20,11 +21,18 @@ export class LibP2PChannel implements Channel {
   nodeCreator: NodeCreator
   log = console.debug
   myId: PeerId
+  remotePeerId?: PeerId
 
-  constructor(myId: PeerId, id: ChannelId, nodeCreator: NodeCreator) {
+  constructor(
+    myId: PeerId,
+    id: ChannelId,
+    nodeCreator: NodeCreator,
+    remotePeerId?: PeerId
+  ) {
     this.myId = myId
     this.channelId = id
     this.nodeCreator = nodeCreator
+    this.remotePeerId = remotePeerId
   }
 
   async connect() {
@@ -37,9 +45,14 @@ export class LibP2PChannel implements Channel {
     await this.node.start()
     this.log('This node id', this.node.peerInfo.id.toB58String())
 
-    await this.node.handle(protocol, ({ stream }) => {
-      this.log('listening on stream: ', stream)
-    })
+    if (this.remotePeerId) {
+      const remotePeerInfo = new PeerInfo(this.remotePeerId)
+      await this.node.dialProtocol(remotePeerInfo, [protocol])
+    } else {
+      await this.node.handle(protocol, ({ stream }) => {
+        this.log('listening on stream: ', stream)
+      })
+    }
   }
 }
 

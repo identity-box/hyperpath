@@ -55,6 +55,41 @@ describe('LibP2PChannel', () => {
       expect(logSpy.msg).toBeDefined()
     })
   })
+
+  describe('when dialing', () => {
+    let libp2pStub: LibP2PStub
+    let channel: LibP2PChannel
+    let logSpy: LogSpy
+    let remoteId: PeerId
+
+    beforeEach(async () => {
+      remoteId = new PeerId(Buffer.alloc(1, 2))
+      libp2pStub = new LibP2PStub()
+      channel = new LibP2PChannel(
+        myId,
+        channelId,
+        () => new Promise(resolve => resolve(libp2pStub)),
+        remoteId
+      )
+      logSpy = new LogSpy()
+      channel.log = (msg: string, args: any[]) => logSpy.log(msg, args)
+      await channel.connect()
+    })
+
+    it('has started', () => {
+      expect(libp2pStub.started).toBeTruthy()
+    })
+
+    it('has dialed the hyperpath protocol', () => {
+      expect(libp2pStub.dialedProtocols).toContain(protocol)
+    })
+
+    it('dials a remote with the right peer id', () => {
+      const dialedRemote = libp2pStub.dialedRemote
+      expect(dialedRemote).toBeDefined()
+      expect(dialedRemote?.id).toEqual(remoteId)
+    })
+  })
 })
 
 class LogSpy {
