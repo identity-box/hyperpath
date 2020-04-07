@@ -9,6 +9,8 @@ import multiaddr from 'multiaddr'
 import PeerId from 'peer-id'
 import { CreateOptions } from 'libp2p'
 
+const signallingServer = '127.0.0.1'
+
 export class LibP2PChannel implements Channel {
   channelId: ChannelId
   key = null
@@ -26,7 +28,7 @@ export class LibP2PChannel implements Channel {
 
   async connect() {
     this.node = await this.nodeCreator(config)
-    const webrtcAddr = '/ip4/10.0.42.28/tcp/9090/wss/p2p-webrtc-star'
+    const webrtcAddr = `/ip4/${signallingServer}/tcp/9090/wss/p2p-webrtc-star`
     if (this.node) {
       this.node.peerInfo.multiaddrs?.add(multiaddr(webrtcAddr))
 
