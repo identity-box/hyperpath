@@ -19,7 +19,8 @@ declare namespace Libp2p {
   export interface CreateOptions {
     modules: {
       transport: Module[]
-      streamMuxer: Module[]
+      streamMuxer?: Module[]
+      connEncryption?: Module[]
       peerDiscovery?: Module[]
       // dht?: KadDHT
     }
@@ -46,6 +47,7 @@ declare namespace Libp2p {
         }
       }
     }
+    peerInfo?: PeerInfo
   }
 
   type Event = 'peer:connect' | 'peer:disconnect' | 'peer:discovery'
