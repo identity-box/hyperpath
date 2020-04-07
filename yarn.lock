@@ -4292,6 +4292,11 @@ is-buffer@^1.1.5:
   resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.6.tgz#efaa2ea9daa0d7ab2ea13a97b2b8ad51fefbe8be"
   integrity sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w==
 
+is-buffer@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-2.0.4.tgz#3e572f23c8411a5cfd9557c849e3665e0b290623"
+  integrity sha512-Kq1rokWXOPXWuaMAqZiJW4XxsmD9zGx9q4aePabbn3qCRGedtH7Cm+zV8WETitMfu1wdh+Rvd6w5egwSngUX2A==
+
 is-callable@^1.1.4, is-callable@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/is-callable/-/is-callable-1.1.5.tgz#f7e46b596890456db74e7f6e976cb3273d06faab"
@@ -4609,7 +4614,7 @@ it-handshake@^1.0.0, it-handshake@^1.0.1:
     it-reader "^2.0.0"
     p-defer "^3.0.0"
 
-it-length-prefixed@^3.0.0:
+it-length-prefixed@^3.0.0, it-length-prefixed@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/it-length-prefixed/-/it-length-prefixed-3.0.1.tgz#8c4d829576f941eb17b94bc83ed0c3c78bf0a05a"
   integrity sha512-QnfnFkpklDhWpyPQ2al6pdqmsQbwZAUpa7066e8S9RQxXo0s4o21ceqCG0n/0wdmvgfRSYsW5g2dYgchqtLZYw==
@@ -4624,6 +4629,15 @@ it-pair@^1.0.0:
   integrity sha512-9raOiDu5OAuDOahtMtapKQDrQTxBfzlzrNcB6o7JARHkt+7Bb1dMkW/TpYdAjBJE77KH3e2zGzwpGUP9tXbLww==
   dependencies:
     get-iterator "^1.0.2"
+
+it-pb-rpc@^0.1.4:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/it-pb-rpc/-/it-pb-rpc-0.1.8.tgz#eed8ffdcba2a322a20a45c9db9ec5644499ccaf2"
+  integrity sha512-YePzUUonithCTIdVKcOeQEn5mpipCg7ZoWsq7jfjXXtAS6gm6R7KzCe6YBV97i6bljU8hGllTG67FiGfweKNKg==
+  dependencies:
+    is-buffer "^2.0.4"
+    it-handshake "^1.0.1"
+    it-length-prefixed "^3.0.1"
 
 it-pipe@^1.0.1, it-pipe@^1.1.0:
   version "1.1.0"
@@ -5254,7 +5268,7 @@ libp2p-crypto-secp256k1@^0.4.2:
     multihashing-async "^0.8.1"
     secp256k1 "^4.0.0"
 
-libp2p-crypto@^0.17.1, libp2p-crypto@~0.17.1, libp2p-crypto@~0.17.3:
+libp2p-crypto@^0.17.1, libp2p-crypto@^0.17.3, libp2p-crypto@~0.17.1, libp2p-crypto@~0.17.3:
   version "0.17.5"
   resolved "https://registry.yarnpkg.com/libp2p-crypto/-/libp2p-crypto-0.17.5.tgz#e7781139530edf217ad90eb06942b84ddebf7df1"
   integrity sha512-pvGKdxY9CvdsaFNFi8xz42CQ2XesAeLNMlsiPI1M1bopMJxHtNPy5HvEInvHL/bODTJn6SrKICbKsQ7bddMXpg==
@@ -5271,7 +5285,7 @@ libp2p-crypto@^0.17.1, libp2p-crypto@~0.17.1, libp2p-crypto@~0.17.3:
     protons "^1.0.1"
     ursa-optional "~0.10.1"
 
-libp2p-interfaces@^0.2.3:
+libp2p-interfaces@^0.2.1, libp2p-interfaces@^0.2.3:
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/libp2p-interfaces/-/libp2p-interfaces-0.2.7.tgz#87e6f5ac8d597edc76655a47889b5fc4bd112d12"
   integrity sha512-CXqc8vYLoJl3riEikXTBjr2xUw8nw2uATax3HazUWMBkvGPf5ONwf+A4LDZSKVuwOWWNMWKbJ1PrD2mGRcRKjw==
@@ -5356,6 +5370,24 @@ libp2p-record@~0.7.0:
     multihashes "~0.4.15"
     multihashing-async "^0.8.0"
     protons "^1.0.1"
+
+libp2p-secio@^0.12.4:
+  version "0.12.4"
+  resolved "https://registry.yarnpkg.com/libp2p-secio/-/libp2p-secio-0.12.4.tgz#a3ed9551727a9f1a507de7ece2bc2000e97de6ee"
+  integrity sha512-+PrdwN4lS/VypO15s47pCaEI+BtRGcjDEaY6VXcqBKIUG3BPXyhPfeHoLZFh9sTd3BkA4fo4fBRN+0dJ8GV8Lg==
+  dependencies:
+    bl "^4.0.0"
+    debug "^4.1.1"
+    it-length-prefixed "^3.0.1"
+    it-pair "^1.0.0"
+    it-pb-rpc "^0.1.4"
+    it-pipe "^1.1.0"
+    libp2p-crypto "^0.17.3"
+    libp2p-interfaces "^0.2.1"
+    multiaddr "^7.2.1"
+    multihashing-async "^0.8.0"
+    peer-id "^0.13.6"
+    protons "^1.0.2"
 
 libp2p-tcp@^0.14.1:
   version "0.14.4"
@@ -6577,7 +6609,7 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-peer-id@^0.13.11, peer-id@^0.13.3, peer-id@^0.13.4, peer-id@^0.13.5, peer-id@~0.13.2, peer-id@~0.13.5:
+peer-id@^0.13.11, peer-id@^0.13.3, peer-id@^0.13.4, peer-id@^0.13.5, peer-id@^0.13.6, peer-id@~0.13.2, peer-id@~0.13.5:
   version "0.13.11"
   resolved "https://registry.yarnpkg.com/peer-id/-/peer-id-0.13.11.tgz#d3b11e45d80839363aeac0e4fa1758368e3b93cd"
   integrity sha512-CWDPr4ppKslARSe1qfMlGjTiDqL4Hl25Qyfq43PEPAeRD2meI8B2HfxO0NMMB8BUhNvNGPeDAwhLptyB9jVwkw==
