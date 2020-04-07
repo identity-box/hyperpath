@@ -14,6 +14,11 @@ describe('Channel ID', () => {
     expect(id1.rawBytes).toEqual(id2.rawBytes)
   })
 
+  it('cannot be created with too short array', () => {
+    const invalidId = new Uint8Array(31)
+    expect(() => ChannelId.create(invalidId)).toThrowError(TypeError)
+  })
+
   it('can be encoded and decoded as string', () => {
     const id = ChannelId.createRandom()
     const encoded = id.toString()
