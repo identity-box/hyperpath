@@ -10,7 +10,7 @@ import PeerId from 'peer-id'
 import { CreateOptions } from 'libp2p'
 import PeerInfo from 'peer-info'
 
-const signallingServer = '127.0.0.1'
+export const signallingServer = '127.0.0.1'
 export const protocol = '/hyperpath/1.0.0'
 
 export class LibP2PChannel implements Channel {

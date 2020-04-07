@@ -1,4 +1,4 @@
-import { LibP2PChannel, protocol } from '../src/LibP2PChannel'
+import { LibP2PChannel, protocol, signallingServer } from '../src/LibP2PChannel'
 import { ChannelId } from '../src/Channel'
 import { LibP2PStub, stubCreator } from './LibP2PStub'
 import PeerInfo from 'peer-info'
@@ -41,6 +41,14 @@ describe('LibP2PChannel', () => {
 
     it('has started', () => {
       expect(libp2pStub.started).toBeTruthy()
+    })
+
+    it('has added the signalling server multiaddr', () => {
+      const matches = libp2pStub.peerInfo.multiaddrs
+        .toArray()
+        .map(ma => ma.toString())
+        .filter(s => s.includes(signallingServer))
+      expect(matches).toHaveLength(1)
     })
 
     it('has registered the hyperpath protocol', () => {
