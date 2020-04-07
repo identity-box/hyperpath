@@ -41,24 +41,6 @@ describe('LibP2PChannel', () => {
     it('has started', () => {
       expect(libp2pStub.started).toBeTruthy()
     })
-
-    it('can handle discovered peers', () => {
-      const peerInfo = new PeerInfo(new PeerId(Buffer.alloc(1, 2)))
-      libp2pStub.emit('peer:discovery', peerInfo)
-      expect(logSpy.msg).toEqual('discovery')
-    })
-
-    it('can handle connected peers', () => {
-      const peerInfo = new PeerInfo(new PeerId(Buffer.alloc(1, 3)))
-      libp2pStub.emit('peer:connect', peerInfo)
-      expect(logSpy.msg).toEqual('connect')
-    })
-
-    it('can handle connected peers', () => {
-      const peerInfo = new PeerInfo(new PeerId(Buffer.alloc(1, 4)))
-      libp2pStub.emit('peer:disconnect', peerInfo)
-      expect(logSpy.msg).toEqual('disconnect')
-    })
   })
 })
 
