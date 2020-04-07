@@ -47,7 +47,7 @@ export class LibP2PStub implements ILibP2P {
     return new Promise(resolve => {
       this.dialedRemote = remote
       this.dialedProtocols = protocols
-      resolve()
+      resolve({ stream: 'stream' })
     })
   }
 }
