@@ -9,7 +9,7 @@ export class LibP2PStub implements ILibP2P {
 
   started = false
   start(): Promise<void> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.started = true
       resolve()
     })
