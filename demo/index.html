@@ -18,11 +18,158 @@
     </style>
   </head>
   <body>
+    <h1>Listener</h1>
+    <p>
+      <button id="listenbutton" onclick="listen()" disabled="disabled">
+        Listen
+      </button>
+    </p>
+    <p>
+      Listener id:
+      <input
+        id="listener_myid"
+        type="text"
+        readonly="readonly"
+        placeholder="My peer id"
+        size="64"
+      />
+    </p>
+    <p>
+      Channel id:
+      <input
+        id="listener_channelid"
+        type="text"
+        readonly="readonly"
+        placeholder="Channel id"
+        size="64"
+      />
+    </p>
+    <p>
+      Encryption key:
+      <input
+        id="listener_key"
+        type="text"
+        readonly="readonly"
+        placeholder="Encryption key"
+        size="64"
+      />
+    </p>
+    <hr />
+    <h1>Dialer</h1>
+    <p>
+      <button id="dialbutton" onclick="dial()" disabled="disabled">Dial</button>
+    </p>
+    <p>
+      Listener id:
+      <input
+        id="dialer_listenerid"
+        type="text"
+        readonly="readonly"
+        placeholder="Listener's peer id"
+        size="64"
+      />
+    </p>
+    <p>
+      Dialer id:
+      <input
+        id="dialer_myid"
+        type="text"
+        readonly="readonly"
+        placeholder="My peer id"
+        size="64"
+      />
+    </p>
+    <p>
+      Channel id:
+      <input
+        id="dialer_channelid"
+        type="text"
+        placeholder="Channel id"
+        size="64"
+      />
+    </p>
+    <p>
+      Encryption key:
+      <input
+        id="dialer_key"
+        type="text"
+        placeholder="Encryption key"
+        size="64"
+      />
+    </p>
     <hr />
     <p>Log:</p>
     <div id="log" />
     <script src="/bundle.js"></script>
+    <script src="https://unpkg.com/peer-id/dist/index.js"></script>
     <script type="text/javascript">
+      let listenerPeerId
+      let listenerId
+      let dialerPeerId
+      let dialerId
+      const listenerPubKey =
+        'CAASpgIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC7rrxtcQhuW1/5kuOnAi1a2AIMRiPontxTr/RLTJf1Jl2VYJ1rjmcJw2sD+UPMVpx9a1I3JpsEGQcQ4yexabBT52bsmoe7OFFIu1v57YfrgA6K7aNWmfERvtHuJUJoljVTHgdX9kukvN7YiNsxIdi00B20bGzAOZVUZQsAhr03uRPRjz/rhoF3VITiZYn1vVM+XfBrMUJwUnL70wI+HsMLOE6ouaVLaWMhA2QwD+5O2V6YfXXosRlGJD0lvo8hmeYly1sZK8yaV09JhDbIjUsSg2kUDLs7PD08edw3KVHuIsdJJmdyRYAExpMdiYYhObwnRZ0EJC/xWKcPCS6GCHq1AgMBAAE='
+      const dialerPubKey =
+        'CAASpgIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCx0pX5ku4LnKrvRH/pHSJv5O6Cp48s8iYya/73bU1M0cY/V08gbmWyrzqT7nIaDZxZ/c2zx6b9yMP80bReYjzZqNll2Idp9Bphr2KlImtrUVRV0GoORd+qqOJHtLQsYMVyWm9IoctZeisFCCUxHE3Ot5hrvviAxCgrdBkPtUguRgUE4hTfjHVqSWHzmFLkqO44S9A40DzLzq2pohEpFpgaSJLgvJfE94+GpqQfShoEaRprYlXGdgVypHyCV15AVGObVHDHjMFhzwAHYQYHZPapaRefzdwbRegWgp9g8h3AWkgxQiQe+9wp4sCAZAn99Q72o/yYhpyq2kVx894svZ7vAgMBAAE='
+      PeerId.createFromPubKey(listenerPubKey).then(pid => {
+        listenerPeerId = pid
+        listenerId = pid.toB58String()
+        document.getElementById('listenbutton').disabled = false
+      })
+      PeerId.createFromPubKey(dialerPubKey).then(pid => {
+        dialerPeerId = pid
+        dialerId = pid.toB58String()
+        document.getElementById('dialbutton').disabled = false
+      })
+
+      function listen() {
+        document.getElementById('listener_myid').value = listenerId
+
+        const myId = listenerPeerId
+        const channel = hyperpath.createChannel(myId)
+        log('channel:', channel)
+        document.getElementById(
+          'listener_channelid'
+        ).value = channel.channelId.toString()
+        document.getElementById('listener_key').value = hyperpath.encodeBase64(
+          channel.key
+        )
+        channel.connect().then(() => {
+          console.debug(
+            'Peer info: ',
+            channel.wrappedChannel.node.peerInfo.multiaddrs
+              .toArray()[0]
+              .toString()
+          )
+        })
+      }
+
+      function dial() {
+        document.getElementById('dialer_listenerid').value = listenerId
+        document.getElementById('dialer_myid').value = dialerId
+
+        const channelIdText = document.getElementById('dialer_channelid').value
+        if (channelIdText.length === 0) {
+          log('[error] Channel id is required for the dialer')
+          return
+        }
+        const keyText = document.getElementById('dialer_key').value
+        if (keyText.length === 0) {
+          log('[error] Encryption key is required for the dialer')
+          return
+        }
+        const channelId = hyperpath.ChannelId.fromString(channelIdText)
+        const key = hyperpath.decodeBase64(keyText)
+        const myId = dialerPeerId
+        const channel = hyperpath.openChannel(
+          myId,
+          channelId,
+          key,
+          listenerPeerId
+        )
+        channel.connect()
+      }
+
       function log(...args) {
         let txt = document.getElementById('log').innerHTML
         txt =
@@ -36,9 +183,6 @@
       }
 
       log('loaded')
-      const channel = hyperpath.createChannel()
-      log('channel:', channel)
-      channel.connect()
     </script>
   </body>
 </html>
