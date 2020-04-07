@@ -5,6 +5,12 @@ export interface ILibP2P extends Libp2p {
   peerInfo: PeerInfo
   start(): Promise<void>
   on(event: Libp2p.Event, handler: Libp2p.PeerInfoHandler): void
+  handle(
+    protocol: string,
+    handler: (result: { stream: any }) => void
+  ): Promise<void>
+
+  dialProtocol(remote: PeerInfo, protocols: string[]): Promise<{ stream: any }>
 }
 
 export type NodeCreator = (options: CreateOptions) => Promise<ILibP2P>

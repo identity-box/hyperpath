@@ -8,9 +8,18 @@ import PeerInfo from 'peer-info'
 declare class Libp2p {
   peerInfo: PeerInfo
 
-  start(): Promise<void>
-  on(event: Libp2p.Event, handler: Libp2p.PeerInfoHandler): void
   static create(options: Libp2p.CreateOptions): Promise<Libp2p>
+
+  start(): Promise<void>
+
+  on(event: Libp2p.Event, handler: Libp2p.PeerInfoHandler): void
+
+  handle(
+    protocol: string,
+    handler: (result: { stream: any }) => void
+  ): Promise<void>
+
+  dialProtocol(remote: PeerInfo, protocols: string[]): Promise<{ stream: any }>
 }
 
 declare namespace Libp2p {

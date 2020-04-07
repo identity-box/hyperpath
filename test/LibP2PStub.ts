@@ -22,6 +22,24 @@ export class LibP2PStub implements ILibP2P {
   emit(event: Libp2p.Event, peerInfo: PeerInfo) {
     this.handlers[event]?.(peerInfo)
   }
+
+  handle(
+    protocol: string,
+    handler: (result: { stream: any }) => void
+  ): Promise<void> {
+    return new Promise(resolve => {
+      resolve()
+    })
+  }
+
+  dialProtocol(
+    remote: PeerInfo,
+    protocols: string[]
+  ): Promise<{ stream: any }> {
+    return new Promise(resolve => {
+      resolve()
+    })
+  }
 }
 
 export const stubCreator: NodeCreator = () => {
