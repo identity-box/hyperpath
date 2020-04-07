@@ -14,15 +14,22 @@ export function createChannel(myId: PeerId): Channel {
 
 export function openChannel(
   myId: PeerId,
-  id: Uint8Array,
-  key: Uint8Array
+  channelId: ChannelId,
+  key: Uint8Array,
+  remoteId: PeerId
 ): Channel {
-  const channelId = ChannelId.create(id)
-  return new EncryptingChannel(key, createLibp2pChannel(myId, channelId))
+  return new EncryptingChannel(
+    key,
+    createLibp2pChannel(myId, channelId, remoteId)
+  )
 }
 
-function createLibp2pChannel(myId: PeerId, channelId: ChannelId): Channel {
-  return new LibP2PChannel(myId, channelId, nodeCreator)
+function createLibp2pChannel(
+  myId: PeerId,
+  channelId: ChannelId,
+  remoteId?: PeerId
+): Channel {
+  return new LibP2PChannel(myId, channelId, nodeCreator, remoteId)
 }
 
 let nodeCreator = Libp2p.create
