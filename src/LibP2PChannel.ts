@@ -36,6 +36,17 @@ export class LibP2PChannel implements Channel {
   }
 
   async connect() {
+    await this.createAndStartNode()
+    if (!this.node) return
+
+    if (this.remotePeerId) {
+      await this.dial()
+    } else {
+      await this.listen()
+    }
+  }
+
+  private async createAndStartNode() {
     this.node = await this.nodeCreator(config)
     if (!this.node) return
 
@@ -44,15 +55,25 @@ export class LibP2PChannel implements Channel {
 
     await this.node.start()
     this.log('This node id', this.node.peerInfo.id.toB58String())
+  }
 
-    if (this.remotePeerId) {
-      const remotePeerInfo = new PeerInfo(this.remotePeerId)
-      await this.node.dialProtocol(remotePeerInfo, [protocol])
-    } else {
-      await this.node.handle(protocol, ({ stream }) => {
-        this.log('listening on stream: ', stream)
-      })
-    }
+  /**
+   * Starts the node in "listener" mode: it doesn't know anybody to
+   * explicitly connect to, so it listens for incoming connections.
+   */
+  private async listen() {
+    await this.node!.handle(protocol, ({ stream }) => {
+      this.log('listening on stream: ', stream)
+    })
+  }
+
+  /**
+   * Starts the node in "dialer" mode: it knows to which peer it
+   * should connect, and it knows how to connect.
+   */
+  private async dial() {
+    const remotePeerInfo = new PeerInfo(this.remotePeerId!)
+    await this.node!.dialProtocol(remotePeerInfo, [protocol])
   }
 }
 
