@@ -14,10 +14,7 @@ declare class Libp2p {
 
   on(event: Libp2p.Event, handler: Libp2p.PeerInfoHandler): void
 
-  handle(
-    protocol: string,
-    handler: (result: { stream: any }) => void
-  ): Promise<void>
+  handle(protocol: string, handler: Libp2p.ProtocolHandler): Promise<void>
 
   dialProtocol(remote: PeerInfo, protocols: string[]): Promise<{ stream: any }>
 }
@@ -62,4 +59,6 @@ declare namespace Libp2p {
   type Event = 'peer:connect' | 'peer:disconnect' | 'peer:discovery'
 
   type PeerInfoHandler = (peerInfo: PeerInfo) => void
+
+  type ProtocolHandler = (result: { stream: any }) => void
 }
