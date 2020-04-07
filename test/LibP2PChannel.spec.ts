@@ -1,8 +1,9 @@
-import { LibP2PChannel } from '../src/LibP2PChannel'
+import { LibP2PChannel, protocol } from '../src/LibP2PChannel'
 import { ChannelId } from '../src/Channel'
 import { LibP2PStub, stubCreator } from './LibP2PStub'
 import PeerInfo from 'peer-info'
 import PeerId from 'peer-id'
+import { ProtocolHandler } from 'libp2p'
 
 describe('LibP2PChannel', () => {
   const myId = new PeerId(Buffer.alloc(1, 1))
@@ -21,7 +22,7 @@ describe('LibP2PChannel', () => {
     await expect(channel.connect()).resolves.toBe(undefined)
   })
 
-  describe('after connecting', () => {
+  describe('when listening', () => {
     let libp2pStub: LibP2PStub
     let channel: LibP2PChannel
     let logSpy: LogSpy
@@ -41,6 +42,18 @@ describe('LibP2PChannel', () => {
     it('has started', () => {
       expect(libp2pStub.started).toBeTruthy()
     })
+
+    it('has registered the hyperpath protocol', () => {
+      expect(libp2pStub.handledProtocol).toBe(protocol)
+    })
+
+    it('has a (just logging for now) handler for that protocol', () => {
+      const handler = libp2pStub.protocolHandler
+      expect(handler).toBeDefined()
+      logSpy.reset()
+      handler!({ stream: 'foo' })
+      expect(logSpy.msg).toBeDefined()
+    })
   })
 })
 
@@ -51,5 +64,10 @@ class LogSpy {
   log(msg: String, args: String[]): void {
     this.msg = msg
     this.args = args
+  }
+
+  reset() {
+    this.msg = undefined
+    this.args = undefined
   }
 }

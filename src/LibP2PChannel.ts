@@ -10,6 +10,7 @@ import PeerId from 'peer-id'
 import { CreateOptions } from 'libp2p'
 
 const signallingServer = '127.0.0.1'
+export const protocol = '/hyperpath/1.0.0'
 
 export class LibP2PChannel implements Channel {
   channelId: ChannelId
@@ -35,6 +36,10 @@ export class LibP2PChannel implements Channel {
 
     await this.node.start()
     this.log('This node id', this.node.peerInfo.id.toB58String())
+
+    await this.node.handle(protocol, ({ stream }) => {
+      this.log('listening on stream: ', stream)
+    })
   }
 }
 

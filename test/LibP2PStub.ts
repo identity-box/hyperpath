@@ -7,6 +7,8 @@ export class LibP2PStub implements ILibP2P {
   peerInfo: PeerInfo = new PeerInfo(new PeerId(Buffer.alloc(1, 1)))
   handlers: { [event in Libp2p.Event]?: Libp2p.PeerInfoHandler } = {}
   started = false
+  handledProtocol?: string
+  protocolHandler?: (result: { stream: any }) => void
 
   start(): Promise<void> {
     return new Promise(resolve => {
@@ -25,6 +27,8 @@ export class LibP2PStub implements ILibP2P {
 
   handle(protocol: string, handler: ProtocolHandler): Promise<void> {
     return new Promise(resolve => {
+      this.handledProtocol = protocol
+      this.protocolHandler = handler
       resolve()
     })
   }
