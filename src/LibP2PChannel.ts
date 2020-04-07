@@ -28,13 +28,13 @@ export class LibP2PChannel implements Channel {
 
   async connect() {
     this.node = await this.nodeCreator(config)
-    const webrtcAddr = `/ip4/${signallingServer}/tcp/9090/wss/p2p-webrtc-star`
-    if (this.node) {
-      this.node.peerInfo.multiaddrs?.add(multiaddr(webrtcAddr))
+    if (!this.node) return
 
-      await this.node.start()
-      this.log('This node id', this.node.peerInfo.id.toB58String())
-    }
+    const webrtcAddr = `/ip4/${signallingServer}/tcp/9090/wss/p2p-webrtc-star`
+    this.node.peerInfo.multiaddrs?.add(multiaddr(webrtcAddr))
+
+    await this.node.start()
+    this.log('This node id', this.node.peerInfo.id.toB58String())
   }
 }
 
