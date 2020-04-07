@@ -1,5 +1,5 @@
 import { randomBytes } from 'tweetnacl'
-
+import { encodeBase64, decodeBase64 } from 'tweetnacl-util'
 /**
  * Common interface for all HyperPath channels.
  */
@@ -40,7 +40,15 @@ export class ChannelId {
     return new ChannelId(id)
   }
 
+  static fromString(str: string): ChannelId {
+    return new ChannelId(decodeBase64(str))
+  }
+
   private constructor(bytes: Uint8Array) {
     this.rawBytes = bytes
+  }
+
+  toString(): string {
+    return encodeBase64(this.rawBytes)
   }
 }

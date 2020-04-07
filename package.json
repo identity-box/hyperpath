@@ -63,6 +63,7 @@
     "libp2p-websockets": "^0.13.6",
     "peer-id": "^0.13.11",
     "peer-info": "^0.17.5",
-    "tweetnacl": "^1.0.3"
+    "tweetnacl": "^1.0.3",
+    "tweetnacl-util": "^0.15.1"
   }
 }
