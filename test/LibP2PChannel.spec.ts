@@ -34,7 +34,7 @@ describe('LibP2PChannel', () => {
         () => new Promise(resolve => resolve(libp2pStub))
       )
       logSpy = new LogSpy()
-      channel.log = (msg, args) => logSpy.log(msg, args)
+      channel.log = (msg: string, args: any[]) => logSpy.log(msg, args)
       await channel.connect()
     })
 
