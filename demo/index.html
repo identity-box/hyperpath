@@ -114,17 +114,18 @@
       PeerId.createFromPubKey(listenerPubKey).then(pid => {
         listenerPeerId = pid
         listenerId = pid.toB58String()
+        document.getElementById('listener_myid').value = listenerId
+        document.getElementById('dialer_listenerid').value = listenerId
         document.getElementById('listenbutton').disabled = false
       })
       PeerId.createFromPubKey(dialerPubKey).then(pid => {
         dialerPeerId = pid
         dialerId = pid.toB58String()
         document.getElementById('dialbutton').disabled = false
+        document.getElementById('dialer_myid').value = dialerId
       })
 
       function listen() {
-        document.getElementById('listener_myid').value = listenerId
-
         const myId = listenerPeerId
         const channel = hyperpath.createChannel(myId)
         log('channel:', channel)
@@ -145,9 +146,6 @@
       }
 
       function dial() {
-        document.getElementById('dialer_listenerid').value = listenerId
-        document.getElementById('dialer_myid').value = dialerId
-
         const channelIdText = document.getElementById('dialer_channelid').value
         if (channelIdText.length === 0) {
           log('[error] Channel id is required for the dialer')
