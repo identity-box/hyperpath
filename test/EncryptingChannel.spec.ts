@@ -3,7 +3,7 @@ import { Channel, ChannelId } from '../src/Channel'
 
 class ChannelSpy implements Channel {
   channelId: ChannelId
-  key: Uint8Array = null
+  key = null
   connectCalled = false
   wrappedChannel = null
 
