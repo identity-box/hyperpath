@@ -48,6 +48,11 @@ following error in the console:
 
 I don't yet understand why this doesn't work.
 
+Tip: extended logging of big part of the libp2p stack can be enabled by
+typing this in the browser console (and reloading the page afterwards):
+
+    localStorage.debug = '*'
+
 [ci]: https://github.com/identity-box/hyperpath/actions?query=workflow%3ACI
 [telepath-url]: https://github.com/identity-box/identity-box/tree/master/workspaces/telepath
 [git-repo]: https://github.com/identity-box/hyperpath
