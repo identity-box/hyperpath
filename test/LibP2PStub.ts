@@ -5,9 +5,9 @@ import Libp2p from 'libp2p'
 
 export class LibP2PStub implements ILibP2P {
   peerInfo: PeerInfo = new PeerInfo(new PeerId(Buffer.alloc(1, 1)))
-  handlers: { [event in Libp2p.Event]: Libp2p.PeerInfoHandler } = []
-
+  handlers: { [event in Libp2p.Event]?: Libp2p.PeerInfoHandler } = {}
   started = false
+
   start(): Promise<void> {
     return new Promise(resolve => {
       this.started = true
