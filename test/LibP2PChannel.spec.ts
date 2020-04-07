@@ -28,15 +28,22 @@ describe('LibP2PChannel', () => {
     let logSpy: LogSpy
 
     beforeEach(async () => {
-      libp2pStub = new LibP2PStub()
       channel = new LibP2PChannel(
         myId,
         channelId,
-        () => new Promise(resolve => resolve(libp2pStub))
+        options =>
+          new Promise(resolve => {
+            libp2pStub = new LibP2PStub(options)
+            resolve(libp2pStub)
+          })
       )
       logSpy = new LogSpy()
       channel.log = (msg: string, args: any[]) => logSpy.log(msg, args)
       await channel.connect()
+    })
+
+    it('has configuration with own peer info', () => {
+      expect(libp2pStub.options?.peerInfo?.id).toBe(myId)
     })
 
     it('has started', () => {
@@ -71,12 +78,15 @@ describe('LibP2PChannel', () => {
     let remoteId: PeerId
 
     beforeEach(async () => {
-      remoteId = new PeerId(Buffer.alloc(1, 2))
-      libp2pStub = new LibP2PStub()
+      remoteId = await PeerId.create({ bits: 512, keyType: 'RSA' })
       channel = new LibP2PChannel(
         myId,
         channelId,
-        () => new Promise(resolve => resolve(libp2pStub)),
+        () =>
+          new Promise(resolve => {
+            libp2pStub = new LibP2PStub()
+            resolve(libp2pStub)
+          }),
         remoteId
       )
       logSpy = new LogSpy()
@@ -96,6 +106,17 @@ describe('LibP2PChannel', () => {
       const dialedRemote = libp2pStub.dialedRemote
       expect(dialedRemote).toBeDefined()
       expect(dialedRemote?.id).toEqual(remoteId)
+    })
+
+    it('has the listener address', () => {
+      const matches = libp2pStub
+        .dialedRemote!.multiaddrs.toArray()
+        .map(ma => ma.toString())
+        .filter(
+          s =>
+            s.includes(signallingServer) && s.includes(remoteId.toB58String())
+        )
+      expect(matches).toHaveLength(1)
     })
   })
 })

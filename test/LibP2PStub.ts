@@ -1,9 +1,10 @@
 import PeerInfo from 'peer-info'
 import PeerId from 'peer-id'
 import { ILibP2P, NodeCreator } from '../src/ILibP2P'
-import Libp2p, { ProtocolHandler, PeerInfoHandler } from 'libp2p'
+import Libp2p, { ProtocolHandler, PeerInfoHandler, CreateOptions } from 'libp2p'
 
 export class LibP2PStub implements ILibP2P {
+  options?: CreateOptions
   peerInfo: PeerInfo = new PeerInfo(new PeerId(Buffer.alloc(1, 1)))
   handlers: { [event in Libp2p.Event]?: Libp2p.PeerInfoHandler } = {}
   started = false
@@ -11,6 +12,10 @@ export class LibP2PStub implements ILibP2P {
   protocolHandler?: (result: { stream: any }) => void
   dialedProtocols: string[] = []
   dialedRemote?: PeerInfo
+
+  constructor(options?: CreateOptions) {
+    this.options = options
+  }
 
   start(): Promise<void> {
     return new Promise(resolve => {

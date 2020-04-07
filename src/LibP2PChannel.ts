@@ -47,7 +47,7 @@ export class LibP2PChannel implements Channel {
   }
 
   private async createAndStartNode() {
-    this.node = await this.nodeCreator(config)
+    this.node = await this.nodeCreator(config(this.myId))
     if (!this.node) return
 
     const webrtcAddr = `/ip4/${signallingServer}/tcp/9090/wss/p2p-webrtc-star`
@@ -73,11 +73,17 @@ export class LibP2PChannel implements Channel {
    */
   private async dial() {
     const remotePeerInfo = new PeerInfo(this.remotePeerId!)
+    remotePeerInfo.multiaddrs.add(
+      multiaddr(
+        `/ip4/${signallingServer}/tcp/9090/wss/p2p-webrtc-star/p2p/` +
+          this.remotePeerId!.toB58String()
+      )
+    )
     await this.node!.dialProtocol(remotePeerInfo, [protocol])
   }
 }
 
-const config: CreateOptions = {
+const config: (myId: PeerId) => CreateOptions = myId => ({
   modules: {
     transport: [WebSockets, WebRTCStar],
     streamMuxer: [MPLEX],
@@ -105,5 +111,6 @@ const config: CreateOptions = {
     //     enabled: true
     //   }
     // }
-  }
-}
+  },
+  peerInfo: new PeerInfo(myId)
+})
