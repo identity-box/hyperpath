@@ -107,18 +107,29 @@
       let listenerId
       let dialerPeerId
       let dialerId
-      const listenerPubKey =
-        'CAASpgIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC7rrxtcQhuW1/5kuOnAi1a2AIMRiPontxTr/RLTJf1Jl2VYJ1rjmcJw2sD+UPMVpx9a1I3JpsEGQcQ4yexabBT52bsmoe7OFFIu1v57YfrgA6K7aNWmfERvtHuJUJoljVTHgdX9kukvN7YiNsxIdi00B20bGzAOZVUZQsAhr03uRPRjz/rhoF3VITiZYn1vVM+XfBrMUJwUnL70wI+HsMLOE6ouaVLaWMhA2QwD+5O2V6YfXXosRlGJD0lvo8hmeYly1sZK8yaV09JhDbIjUsSg2kUDLs7PD08edw3KVHuIsdJJmdyRYAExpMdiYYhObwnRZ0EJC/xWKcPCS6GCHq1AgMBAAE='
-      const dialerPubKey =
-        'CAASpgIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCx0pX5ku4LnKrvRH/pHSJv5O6Cp48s8iYya/73bU1M0cY/V08gbmWyrzqT7nIaDZxZ/c2zx6b9yMP80bReYjzZqNll2Idp9Bphr2KlImtrUVRV0GoORd+qqOJHtLQsYMVyWm9IoctZeisFCCUxHE3Ot5hrvviAxCgrdBkPtUguRgUE4hTfjHVqSWHzmFLkqO44S9A40DzLzq2pohEpFpgaSJLgvJfE94+GpqQfShoEaRprYlXGdgVypHyCV15AVGObVHDHjMFhzwAHYQYHZPapaRefzdwbRegWgp9g8h3AWkgxQiQe+9wp4sCAZAn99Q72o/yYhpyq2kVx894svZ7vAgMBAAE='
-      PeerId.createFromPubKey(listenerPubKey).then(pid => {
+      const listenerInfoMarshaled = {
+        id: 'QmauiUjDNvXdF6BzL8Lz5VNWaQyxxANrZiKWBLL7nvDNQt',
+        privKey:
+          'CAASpwkwggSjAgEAAoIBAQCSFQv49JZVYxsFX/hNwXYngdvsayrE7BP0xNwVI7zJzDYmIgJGVKJF8zya5DlzoyFAeOCsXVbDuKFSsXjnCT7k4BwMLN+i/BwTfVFpltzKFn/YqWAvUPBYswBCRtn3hDXzOyYhbs5BNbJbL2LRH1lApBxaBv2uQJD4K2xvnvlv2eZ6K/9/+gQrosEJRLD/fo73fxzWR6aKsGoGKxqHsZBS7E7oXIroALhr9F/2FFkqOpi0mM+tDg/ANcYkJjWkUQPsTo1i7eaMXsGOJAHelTnwic49xv3A9argGmGFhCSPWpY/c/cRbAj/55Md9PBRrUEaq+L6PxLDHhXdugsNcC/BAgMBAAECggEAA8M3A7qJBLoAwCqwopAREwNtPrGj8F6ERRGs+X5qJmh0HJdTp6wWYebZ8MNgF3JkMNzsLIRa77+ZqB+aFZlPXWXIUyf0uqXzsyzPJAEWvr3FnTb/mzhieGZj41Ef3Bgzq4gie0n3VgakCWU3DlvYWKnhcRAtCIfxM/MqX9WgZxkTt5ep6WnGRZYkPyuBi4Y2go7u8O/DxW8eBAqiUD1UY5bv1g6mv0JmEpZNhlAB5ar3G/BptWTBmtxFX2mJy/zhdE2d7EfSGJ8HNS/56P2nDCGCjc49JVP6JC2dk1xe6YnHmpX7/L8t3+GeHij4kRgY8EPwPJb3NoM3r1EbpY7OYQKBgQDGSTzWZZeI0dxf27i6qmTpUUhTx+uJPZv+tj1yDjUzvbD9nlH9yLh1V/9hptCkIwDrMZmHYHckAoGtra6EtksV0RWcamtO3qY7jf+LiKTsKhM6Y9eLNy7i/7/k/FkA9GMwO5Gre2AOY7uXfBxcS2gazSZ4Z7sMn9hssUmAp5obPwKBgQC8mfnaE8JgwXJizIXJlqdKiXu24HOqdxss9NWkZiCqF8KvKrm/LuGJ552e+X8gJghsKUmmDbt4idrihTEjWjRsG10AdJsapQ6xCfjr4FFcEGNdW6KQVDjonHJ8Y0MPS/+32v+hUGkA0aH5PUhkZM3w3Skhsi6Es0hcWmxzjEn0/wKBgBsi4MGSq7dcySURQ+m/8gmARz64CIMCvHuSYzxdt2g6WKOM7DmoI55jiZ7Knpkn9TM62YEOcZ+q/CZRs6WT8RiuQZ/jbIYhsGxMFaH59GAhrfn6uf/icHc+evuSkXew+nYaYOgv/Uha28xyfssewsOQOeiWgaHLqmnNpXqG9W8vAoGAfktlwqEkswIXhQ2MMZgO4pz6GVZoXihwLESvo+03xm8u0Xn89IeCRISzSjes52xQi42CYg4kEe3Og43Jf/Dx1crlFl7/VnJdSjRxWhLWqJ3YzDWGwLuFeE77Y0xdJaswzH98WxurlP7MRkjBZ2kRd0/CMWxONlKQDDgJE79H7yUCgYEAkiBBTyw4g7PHZz8EdaWV5CvyPsAYtygE8NWaW1XidowdtTovDacY/cseh2eDBSiY6OpqWRpsuD/4nc0Z43OA1HecYt/l4/xNGaPZ1brzgjjwwLC8vXKKXt/VbxJxkbPhpZJvnc60zdXHQLps2Er/zpKDtS9DikYkd9NrYPeANAo=',
+        pubKey:
+          'CAASpgIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCSFQv49JZVYxsFX/hNwXYngdvsayrE7BP0xNwVI7zJzDYmIgJGVKJF8zya5DlzoyFAeOCsXVbDuKFSsXjnCT7k4BwMLN+i/BwTfVFpltzKFn/YqWAvUPBYswBCRtn3hDXzOyYhbs5BNbJbL2LRH1lApBxaBv2uQJD4K2xvnvlv2eZ6K/9/+gQrosEJRLD/fo73fxzWR6aKsGoGKxqHsZBS7E7oXIroALhr9F/2FFkqOpi0mM+tDg/ANcYkJjWkUQPsTo1i7eaMXsGOJAHelTnwic49xv3A9argGmGFhCSPWpY/c/cRbAj/55Md9PBRrUEaq+L6PxLDHhXdugsNcC/BAgMBAAE='
+      }
+      const dialerInfoMarshaled = {
+        id: 'QmYutXQUNPB79soLw9MLXGb73FMVYdBSTFyfkJeHnfRtLG',
+        privKey:
+          'CAASpgkwggSiAgEAAoIBAQCsUOKnK+DkPGktTu3h8g6PJcEq1WKsXpL1pJOWuZjqyLtOrR0gwKtySWCgKNsspGV2C/27RGY4Ot4urqzGPjE0M1wARYI7EHTIt7HecuMaLES/O9krY4tKBA/w19wm6y7M5Dtl6t9wIlTCc6Uj8sUXzT6Tov9PDdu/U/E2q1OnMom45Ctw+Ogoig8IKO9D38GDIQxISQkMEIBz0YKvdlUjUJwbN4BiuVvaEaoC6pzWQ1BI0QMSy5sVzfYSXqFvZr+kKfONnVBrBcAzrqhJ4IklbkAa28TB6yRg2l/1FD6eQHRkCVM+PWvqd+DyU3peAPZrqYHpEHzkbmvzpHA7/XIjAgMBAAECggEASt/WrKcvUF1DonFigkRIuUDBf9g6yQVLPDun+d1pqdNROG2Wc43ksYNa3h0Cp5JDmBi7xuyAsjw6IPS7lGSfwrvyZRfO79VFuZXATxWCwvOrZ6Ecy3K0qpO7TX6uZabZriQZ/z4gmrwAMoJHpqgtphsD7ujroTE3ZBqYfJXTgpmHd3iMVvtDxHjeKUwyO6W0TbC1eQeskGuffXzJolMrnHIcx4x9KzKTu54f301fLBVvUHpaIKB+EQxl2m2/2QV0GxynHZIdJLOh4XhtcYqGTWKfYrJ8BkVTl2mgnfDzcTqRT5shxy0YMEq7D1WhtMY6T1kTDHXH+ErZDwlsVa0fKQKBgQDbIrKWskSFLAoVBDi0E19wHE9sL3D9bKI0XB/cS3pTJIkDAZ/VJVCJQ/qmL75RQMTJJZRe8Z/gl2zSZ7V0JilJbjen7q2U3r6Ax6pry/NMq3iJn4pFElcXCWrlqtyeLTxLKhZcK6pZ6RgI0dNWD2frwMO32GxV67yh8c8djGZe3QKBgQDJTdp0V1zLDbfuj54IlCu1Dtq7AW7zSWplgWbGCIipUK/65KG0NuTqzYWQ5YcffowLedjE3H4qubB7v9gcFPQGDxql7fHpIu4OOrSIx2QSmBpdrbBaCgVJqjOmoYwXMaXPJdyxtIZ487qOZtkKbAfdtr4a7DLOW/XkWRngDFeE/wKBgD+gioRRDK4yRFcn26MFwP9XaQQ7ni4nXc2gNiwLyl/byuCRlywXYpQIpf2c/UCwcrMI81TCCa73qMRLEpfAANruYsCi/8mrB1tzHhugo2tOmngzV72IfrsUo/I9s0NGVSxp8wYeM59Zm/3rltZ1MLJ2TR3TfFlSUnofMQkeXBcNAoGAL14HYkrQReNTfWoD2Kbs5ey54TkEH3EN/RaG1WBar+SRlCrKNfqYwPtdS2wG8I05bNXeAOyVL36EHYpV0r3HccmKDrM/sgkLFQQRSQIJ9SofQh3FmlozRlMrVjE7IpYHGwggtxvwbHOFWU6wEXi8HRqL/w/HILGY2YNxyDt/OIcCgYABh0fCMMDiSeYboVIyQnhfVaHdCpItNW1h51mgJoNENX0DAq/ShEGn1w2AQj4U76y/CyVpeUD3nl073DS/JpXoRaa98MHfGGzT5LP+hs4gvHiJ6AgAPoDDxuaG1KNqZeYObSV6hd1hWXislXDqm1ptvQVSHG+Gp2gVd9DydFGTdg==',
+        pubKey:
+          'CAASpgIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCsUOKnK+DkPGktTu3h8g6PJcEq1WKsXpL1pJOWuZjqyLtOrR0gwKtySWCgKNsspGV2C/27RGY4Ot4urqzGPjE0M1wARYI7EHTIt7HecuMaLES/O9krY4tKBA/w19wm6y7M5Dtl6t9wIlTCc6Uj8sUXzT6Tov9PDdu/U/E2q1OnMom45Ctw+Ogoig8IKO9D38GDIQxISQkMEIBz0YKvdlUjUJwbN4BiuVvaEaoC6pzWQ1BI0QMSy5sVzfYSXqFvZr+kKfONnVBrBcAzrqhJ4IklbkAa28TB6yRg2l/1FD6eQHRkCVM+PWvqd+DyU3peAPZrqYHpEHzkbmvzpHA7/XIjAgMBAAE='
+      }
+
+      PeerId.createFromJSON(listenerInfoMarshaled).then(pid => {
         listenerPeerId = pid
         listenerId = pid.toB58String()
         document.getElementById('listener_myid').value = listenerId
         document.getElementById('dialer_listenerid').value = listenerId
         document.getElementById('listenbutton').disabled = false
       })
-      PeerId.createFromPubKey(dialerPubKey).then(pid => {
+      PeerId.createFromJSON(dialerInfoMarshaled).then(pid => {
         dialerPeerId = pid
         dialerId = pid.toB58String()
         document.getElementById('dialbutton').disabled = false
