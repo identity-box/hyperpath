@@ -1,5 +1,6 @@
 import WebSockets from 'libp2p-websockets'
 import WebRTCStar from 'libp2p-webrtc-star'
+import SECIO from 'libp2p-secio'
 import MPLEX from 'libp2p-mplex'
 // import KadDHT from 'libp2p-kad-dht'
 import { Channel, ChannelId } from './Channel'
@@ -87,6 +88,7 @@ export class LibP2PChannel implements Channel {
 const config: (myId: PeerId) => CreateOptions = myId => ({
   modules: {
     transport: [WebSockets, WebRTCStar],
+    connEncryption: [SECIO],
     streamMuxer: [MPLEX],
     peerDiscovery: [Bootstrap]
   },
