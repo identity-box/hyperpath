@@ -34,19 +34,13 @@ Then you can run the demo:
 
     yarn demo
 
-You can then open the demo in two different browser windows (Chromium
-and Chrome work for sure). The first window will act as your listener,
-the other one as the dialer. First, hit the "Listen" button in the
-listener window. As a result, a channel id and encryption key will be
-displayed in the listener window. You have to manually copy-paste those
-into the appropriate fields of the "Dialer" section in your dialer
-window. The other fields will be filled in automatically, don't worry.
-Then you hit "Dial" in the dialer window. Currently, you will see the
-following error in the console:
-
-    Error: protocol selection failed
-
-I don't yet understand why this doesn't work.
+You can then open the demo in two different browser windows (Chromium and Chrome
+work for sure). The first window will act as your listener, the other one as the
+dialer. First, hit the "Listen" button in the listener window. As a result, a
+channel id will be displayed in the listener window. You have to manually
+copy-paste it into the appropriate field of the "Dialer" section in your
+dialer window. The other fields will be filled in automatically, don't worry.
+Then you hit "Dial" in the dialer window.
 
 Tip: extended logging of big part of the libp2p stack can be enabled by
 typing this in the browser console (and reloading the page afterwards):

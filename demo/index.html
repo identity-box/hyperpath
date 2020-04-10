@@ -44,16 +44,6 @@
         size="64"
       />
     </p>
-    <p>
-      Encryption key:
-      <input
-        id="listener_key"
-        type="text"
-        readonly="readonly"
-        placeholder="Encryption key"
-        size="64"
-      />
-    </p>
     <hr />
     <h1>Dialer</h1>
     <p>
@@ -85,15 +75,6 @@
         id="dialer_channelid"
         type="text"
         placeholder="Channel id"
-        size="64"
-      />
-    </p>
-    <p>
-      Encryption key:
-      <input
-        id="dialer_key"
-        type="text"
-        placeholder="Encryption key"
         size="64"
       />
     </p>
@@ -143,15 +124,10 @@
         document.getElementById(
           'listener_channelid'
         ).value = channel.channelId.toString()
-        document.getElementById('listener_key').value = hyperpath.encodeBase64(
-          channel.key
-        )
         channel.connect().then(() => {
           console.debug(
             'Peer info: ',
-            channel.wrappedChannel.node.peerInfo.multiaddrs
-              .toArray()[0]
-              .toString()
+            channel.node.peerInfo.multiaddrs.toArray()[0].toString()
           )
         })
       }
@@ -162,20 +138,9 @@
           log('[error] Channel id is required for the dialer')
           return
         }
-        const keyText = document.getElementById('dialer_key').value
-        if (keyText.length === 0) {
-          log('[error] Encryption key is required for the dialer')
-          return
-        }
         const channelId = hyperpath.ChannelId.fromString(channelIdText)
-        const key = hyperpath.decodeBase64(keyText)
         const myId = dialerPeerId
-        const channel = hyperpath.openChannel(
-          myId,
-          channelId,
-          key,
-          listenerPeerId
-        )
+        const channel = hyperpath.openChannel(myId, channelId, listenerPeerId)
         channel.connect()
       }
 
