@@ -68,7 +68,10 @@ export class LibP2PChannel implements Channel {
     await this.node!.handle(protocol, async ({ connection, stream }) => {
       this.log('listening on stream: ', stream)
       const message = await stream.source.next()
-      await this.node!.hangUp(connection!.remotePeer)
+      if (message.value.toString() !== this.channelId.toString()) {
+        this.log('invalid channel id; hangup')
+        await this.node!.hangUp(connection!.remotePeer)
+      }
     })
   }
 

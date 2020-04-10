@@ -79,6 +79,14 @@ describe('LibP2PChannel', () => {
         expect(libp2pStub.hangUps).toHaveLength(1)
         expect(libp2pStub.hangUps[0]).toEqual(dialer.id)
       })
+
+      it('does not hang up when it receives correct channel id', async () => {
+        const dialer = new PeerInfo(new PeerId(Buffer.alloc(1, 2)))
+        libp2pStub.fakeIncomingDial(dialer)
+        libp2pStub.fakeIncomingMessage(channelId.toString())
+        await flushPromises()
+        expect(libp2pStub.hangUps).toHaveLength(0)
+      })
     })
 
     describe('when dialing', () => {
