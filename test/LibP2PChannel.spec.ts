@@ -2,6 +2,7 @@ import { LibP2PChannel, protocol, signallingServer } from '../src/LibP2PChannel'
 import { ChannelId } from '../src/Channel'
 import { LibP2PStub, stubCreator } from './LibP2PStub'
 import PeerId from 'peer-id'
+import PeerInfo from 'peer-info'
 
 describe('LibP2PChannel', () => {
   const myId = new PeerId(Buffer.alloc(1, 1))
@@ -69,12 +70,14 @@ describe('LibP2PChannel', () => {
         expect(libp2pStub.handledProtocol).toBe(protocol)
       })
 
-      it('has a (just logging for now) handler for that protocol', () => {
-        const handler = libp2pStub.protocolHandler
-        expect(handler).toBeDefined()
-        logSpy.reset()
-        handler!({ stream: 'foo' })
-        expect(logSpy.msg).toBeDefined()
+      it('hangs up when it receives incorrect channel id', async () => {
+        const invalidChannelId = ChannelId.createRandom().toString()
+        const dialer = new PeerInfo(new PeerId(Buffer.alloc(1, 2)))
+        libp2pStub.fakeIncomingDial(dialer)
+        libp2pStub.fakeIncomingMessage(invalidChannelId)
+        await flushPromises()
+        expect(libp2pStub.hangUps).toHaveLength(1)
+        expect(libp2pStub.hangUps[0]).toEqual(dialer.id)
       })
     })
 
@@ -134,3 +137,8 @@ class LogSpy {
     this.args = undefined
   }
 }
+
+const flushPromises = () =>
+  new Promise(resolve => {
+    resolve()
+  })

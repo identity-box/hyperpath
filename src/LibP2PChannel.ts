@@ -45,6 +45,8 @@ export class LibP2PChannel implements Channel {
     } else {
       await this.listen()
     }
+
+    this.log('connected')
   }
 
   private async createAndStartNode() {
@@ -63,8 +65,10 @@ export class LibP2PChannel implements Channel {
    * explicitly connect to, so it listens for incoming connections.
    */
   private async listen() {
-    await this.node!.handle(protocol, ({ stream }) => {
+    await this.node!.handle(protocol, async ({ connection, stream }) => {
       this.log('listening on stream: ', stream)
+      const message = await stream.source.next()
+      await this.node!.hangUp(connection!.remotePeer)
     })
   }
 
