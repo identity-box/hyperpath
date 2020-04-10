@@ -1,9 +1,7 @@
 import { LibP2PChannel, protocol, signallingServer } from '../src/LibP2PChannel'
 import { ChannelId } from '../src/Channel'
 import { LibP2PStub, stubCreator } from './LibP2PStub'
-import PeerInfo from 'peer-info'
 import PeerId from 'peer-id'
-import { ProtocolHandler } from 'libp2p'
 
 describe('LibP2PChannel', () => {
   const myId = new PeerId(Buffer.alloc(1, 1))
