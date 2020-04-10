@@ -1,5 +1,4 @@
 import { createChannel, openChannel, setNodeCreator } from '../src/Main'
-import { randomBytes, secretbox } from 'tweetnacl'
 import { stubCreator } from './LibP2PStub'
 import PeerId from 'peer-id'
 import { Channel, ChannelId } from '../src/Channel'
@@ -17,7 +16,6 @@ describe('HyperPath', () => {
       const channel = createChannel(myId)
       expect(channel.channelId).toBeDefined()
       expect(channel.channelId.rawBytes.length).toBe(32)
-      expect(channel.key?.length).toBe(secretbox.keyLength)
     })
 
     it(`passes the client's peer id to the libp2p channel`, () => {
@@ -29,7 +27,6 @@ describe('HyperPath', () => {
 
   describe('open previously created channel', () => {
     let channelId: ChannelId
-    const testKey = randomBytes(secretbox.keyLength)
     const remoteId = new PeerId(Buffer.alloc(1, 2))
 
     beforeEach(() => {
@@ -37,19 +34,12 @@ describe('HyperPath', () => {
     })
 
     it('can be opened with an explicit id', () => {
-      const channel = openChannel(myId, channelId, testKey, remoteId)
+      const channel = openChannel(myId, channelId, remoteId)
       expect(channel.channelId).toBe(channelId)
     })
 
-    it('cannot be opened with invalid key size', () => {
-      const invalidKey = new Uint8Array(secretbox.keyLength + 1)
-      expect(() =>
-        openChannel(myId, channelId, invalidKey, remoteId)
-      ).toThrowError(TypeError)
-    })
-
     it('passes the remote peer id to the libp2p channel', () => {
-      const channel = openChannel(myId, channelId, testKey, remoteId)
+      const channel = openChannel(myId, channelId, remoteId)
       const innermostChannel = findInnermostChannel(channel) as LibP2PChannel
       expect(innermostChannel.remotePeerId).toBe(remoteId)
     })
