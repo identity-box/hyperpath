@@ -19,6 +19,8 @@ declare class Libp2p {
   handle(protocol: string, handler: Libp2p.ProtocolHandler): Promise<void>
 
   dialProtocol(remote: PeerInfo, protocols: string[]): Promise<{ stream: any }>
+
+  hangUp(peer: PeerInfo | PeerId | multiaddr | string): Promise<void>
 }
 
 declare namespace Libp2p {
@@ -69,18 +71,19 @@ declare namespace Libp2p {
    * here as a simplification; in reality it is an onSinkEnd
    * callback (https://github.com/libp2p/js-libp2p-mplex/blob/24841e399afec7a539767a7baffc893d034d0113/src/stream.js#L97).
    */
+  type Stream = {
+    source: AsyncGenerator<any, any, any>
+    sink: (source: any) => void
+  }
   type ProtocolHandler = (result: {
     connection?: {
-      id: string
-      localAddr: multiaddr
-      remoteAddr: multiaddr
-      localPeer: PeerId
+      // id: string
+      // localAddr: multiaddr
+      // remoteAddr: multiaddr
+      // localPeer: PeerId
       remotePeer: PeerId
     }
     protocol?: string
-    stream: {
-      source: AsyncGenerator
-      sink: (source: any) => void
-    }
+    stream: Stream
   }) => void
 }

@@ -1,7 +1,14 @@
 import PeerInfo from 'peer-info'
 import PeerId from 'peer-id'
 import { ILibP2P, NodeCreator } from '../src/ILibP2P'
-import Libp2p, { ProtocolHandler, PeerInfoHandler, CreateOptions } from 'libp2p'
+import Libp2p, {
+  ProtocolHandler,
+  PeerInfoHandler,
+  CreateOptions,
+  Stream
+} from 'libp2p'
+import multiaddr from 'multiaddr'
+import pushable from 'it-pushable'
 
 export class LibP2PStub implements ILibP2P {
   options?: CreateOptions
@@ -9,10 +16,12 @@ export class LibP2PStub implements ILibP2P {
   handlers: { [event in Libp2p.Event]?: Libp2p.PeerInfoHandler } = {}
   started = false
   handledProtocol?: string
-  protocolHandler?: (result: { stream: any }) => void
+  protocolHandler?: ProtocolHandler
   dialedProtocols: string[] = []
   dialedRemote?: PeerInfo
   sent: string[] = []
+  hangUps: (PeerInfo | PeerId | multiaddr | string)[] = []
+  incomingMessagesSource: any
 
   constructor(options?: CreateOptions) {
     this.options = options
@@ -55,6 +64,31 @@ export class LibP2PStub implements ILibP2P {
           }
         }
       })
+    })
+  }
+
+  fakeIncomingDial(dialer: PeerInfo) {
+    if (!this.protocolHandler) return
+
+    this.incomingMessagesSource = pushable()
+    const stream: Stream = {
+      source: this.incomingMessagesSource,
+      sink: () => undefined
+    }
+    this.protocolHandler({
+      stream: stream,
+      connection: { remotePeer: dialer.id }
+    })
+  }
+
+  fakeIncomingMessage(message: string) {
+    this.incomingMessagesSource.push(message)
+  }
+
+  hangUp(peer: PeerInfo | PeerId | multiaddr | string): Promise<void> {
+    this.hangUps.push(peer)
+    return new Promise(resolve => {
+      resolve()
     })
   }
 }
