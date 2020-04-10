@@ -111,6 +111,11 @@ describe('LibP2PChannel', () => {
           )
         expect(matches).toHaveLength(1)
       })
+
+      it('sent the channel id', () => {
+        const channelIdString = channelId.toString()
+        expect(libp2pStub.sent).toEqual([channelIdString])
+      })
     })
   })
 })

@@ -82,6 +82,7 @@ export class LibP2PChannel implements Channel {
     )
     const { stream } = await this.node!.dialProtocol(remotePeerInfo, [protocol])
     this.log('dialed stream:', stream)
+    stream.sink([this.channelId.toString()])
   }
 }
 
