@@ -37,10 +37,9 @@ Then you can run the demo:
 You can then open the demo in two different browser windows (Chromium and Chrome
 work for sure). The first window will act as your listener, the other one as the
 dialer. First, hit the "Listen" button in the listener window. As a result, a
-channel id will be displayed in the listener window. You have to manually
-copy-paste it into the appropriate field of the "Dialer" section in your
-dialer window. The other fields will be filled in automatically, don't worry.
-Then you hit "Dial" in the dialer window.
+channel id will be generated in the listener window, and it will be put into the
+channel id field in the dialer window as well. Now you can click the "Dial"
+button in the dialer window and "it should work".
 
 Tip: extended logging of big part of the libp2p stack can be enabled by
 typing this in the browser console (and reloading the page afterwards):

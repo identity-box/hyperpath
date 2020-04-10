@@ -18,67 +18,73 @@
     </style>
   </head>
   <body>
-    <h1>Listener</h1>
-    <p>
-      <button id="listenbutton" onclick="listen()" disabled="disabled">
-        Listen
-      </button>
-    </p>
-    <p>
-      Listener id:
-      <input
-        id="listener_myid"
-        type="text"
-        readonly="readonly"
-        placeholder="My peer id"
-        size="64"
-      />
-    </p>
-    <p>
-      Channel id:
-      <input
-        id="listener_channelid"
-        type="text"
-        readonly="readonly"
-        placeholder="Channel id"
-        size="64"
-      />
-    </p>
+    <div id="listener_block">
+      <h1>Listener</h1>
+      <p>
+        <button id="listenbutton" onclick="listen()" disabled="disabled">
+          Listen
+        </button>
+      </p>
+      <p>
+        Listener id:
+        <input
+          id="listener_myid"
+          type="text"
+          readonly="readonly"
+          placeholder="My peer id"
+          size="64"
+        />
+      </p>
+      <p>
+        Channel id:
+        <input
+          id="listener_channelid"
+          type="text"
+          readonly="readonly"
+          placeholder="Channel id"
+          size="64"
+        />
+      </p>
+    </div>
     <hr />
-    <h1>Dialer</h1>
-    <p>
-      <button id="dialbutton" onclick="dial()" disabled="disabled">Dial</button>
-    </p>
-    <p>
-      Listener id:
-      <input
-        id="dialer_listenerid"
-        type="text"
-        readonly="readonly"
-        placeholder="Listener's peer id"
-        size="64"
-      />
-    </p>
-    <p>
-      Dialer id:
-      <input
-        id="dialer_myid"
-        type="text"
-        readonly="readonly"
-        placeholder="My peer id"
-        size="64"
-      />
-    </p>
-    <p>
-      Channel id:
-      <input
-        id="dialer_channelid"
-        type="text"
-        placeholder="Channel id"
-        size="64"
-      />
-    </p>
-    <hr />
+    <div id="dialer_block">
+      <h1>Dialer</h1>
+      <p>
+        <button id="dialbutton" onclick="dial()" disabled="disabled">
+          Dial
+        </button>
+      </p>
+      <p>
+        Listener id:
+        <input
+          id="dialer_listenerid"
+          type="text"
+          readonly="readonly"
+          placeholder="Listener's peer id"
+          size="64"
+        />
+      </p>
+      <p>
+        Dialer id:
+        <input
+          id="dialer_myid"
+          type="text"
+          readonly="readonly"
+          placeholder="My peer id"
+          size="64"
+        />
+      </p>
+      <p>
+        Channel id:
+        <input
+          id="dialer_channelid"
+          type="text"
+          placeholder="Channel id"
+          size="64"
+        />
+      </p>
+      <hr />
+    </div>
     <p>Log:</p>
     <div id="log" />
     <script src="/bundle.js"></script>
@@ -117,13 +123,21 @@
         document.getElementById('dialer_myid').value = dialerId
       })
 
+      window.onstorage = function(e) {
+        if (e.key === 'channelId') {
+          document.getElementById('dialer_channelid').value = e.newValue
+        }
+      }
+
       function listen() {
+        document.getElementById('dialer_block').style.display = 'none'
         const myId = listenerPeerId
         const channel = hyperpath.createChannel(myId)
         log('channel:', channel)
         document.getElementById(
           'listener_channelid'
         ).value = channel.channelId.toString()
+        localStorage.channelId = channel.channelId.toString()
         channel.connect().then(() => {
           console.debug(
             'Peer info: ',
@@ -133,6 +147,7 @@
       }
 
       function dial() {
+        document.getElementById('listener_block').style.display = 'none'
         const channelIdText = document.getElementById('dialer_channelid').value
         if (channelIdText.length === 0) {
           log('[error] Channel id is required for the dialer')
