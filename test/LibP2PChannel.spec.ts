@@ -116,10 +116,10 @@ describe('LibP2PChannel', () => {
 })
 
 class LogSpy {
-  msg: String | undefined
-  args: String[] | undefined
+  msg: string | undefined
+  args: string[] | undefined
 
-  log(msg: String, args: String[]): void {
+  log(msg: string, args: string[]): void {
     this.msg = msg
     this.args = args
   }

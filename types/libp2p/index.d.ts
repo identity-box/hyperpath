@@ -34,24 +34,24 @@ declare namespace Libp2p {
     }
     config: {
       peerDiscovery?: {
-        autoDial?: Boolean
+        autoDial?: boolean
         bootstrap?: {
-          enabled: Boolean
-          list: String[]
-          interval?: Number
+          enabled: boolean
+          list: string[]
+          interval?: number
         }
         mdns?: {
-          enabled: Boolean
-          interval?: Number
+          enabled: boolean
+          interval?: number
         }
       }
       dht?: {
-        enabled: Boolean
-        kBucketSize?: Number
+        enabled: boolean
+        kBucketSize?: number
         randomWalk: {
-          enabled: Boolean
-          interval?: Number
-          queriesPerPeriod?: Number
+          enabled: boolean
+          interval?: number
+          queriesPerPeriod?: number
         }
       }
     }
