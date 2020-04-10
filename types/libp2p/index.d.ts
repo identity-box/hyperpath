@@ -4,6 +4,8 @@ export = Libp2p
 
 // import KadDHT from 'libp2p-kad-dht'
 import PeerInfo from 'peer-info'
+import PeerId from 'peer-id'
+import multiaddr from 'multiaddr'
 
 declare class Libp2p {
   peerInfo: PeerInfo
@@ -60,5 +62,25 @@ declare namespace Libp2p {
 
   type PeerInfoHandler = (peerInfo: PeerInfo) => void
 
-  type ProtocolHandler = (result: { stream: any }) => void
+  /**
+   * The stream sink is a function. The input of that function is
+   * processed using `for await ... of`. Simplest use is an array
+   * of (one or more) strings. The return value is listed as `void`
+   * here as a simplification; in reality it is an onSinkEnd
+   * callback (https://github.com/libp2p/js-libp2p-mplex/blob/24841e399afec7a539767a7baffc893d034d0113/src/stream.js#L97).
+   */
+  type ProtocolHandler = (result: {
+    connection?: {
+      id: string
+      localAddr: multiaddr
+      remoteAddr: multiaddr
+      localPeer: PeerId
+      remotePeer: PeerId
+    }
+    protocol?: string
+    stream: {
+      source: AsyncGenerator
+      sink: (source: any) => void
+    }
+  }) => void
 }
