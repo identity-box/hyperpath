@@ -27,11 +27,11 @@ end
 webapp_alice -> hyperpath_alice: ""createChannel(alice_id, …)""
 activate webapp_alice
 activate hyperpath_alice
-hyperpath_alice -> hyperpath_alice: create random\nsession key
-hyperpath_alice --> webapp_alice: channel with key
+hyperpath_alice -> hyperpath_alice: create random\nchannel id
+hyperpath_alice --> webapp_alice: channel with id
 deactivate hyperpath_alice
 deactivate webapp_alice
-webapp_alice -> webapp_alice: show QR code\nwith channel key\nand ""alice_id""
+webapp_alice -> webapp_alice: show QR code\nwith channel id\nand ""alice_id""
 webapp_alice -> hyperpath_alice: start channel
 activate hyperpath_alice
 activate webapp_alice
@@ -41,7 +41,7 @@ note right: Alices's HyperPath is the listener
 bob -> webapp_bob: open camera
 activate webapp_bob
 webapp_bob -> webapp_bob: scan QR code on\nAlice's screen
-webapp_bob --> webapp_bob: QR code with\nsession key\nand ""alice_id""
+webapp_bob --> webapp_bob: QR code with\nchannel id\nand ""alice_id""
 opt bob has no peer id yet
   webapp_bob -> hyperpath_bob: create peer id
   activate hyperpath_bob
@@ -49,41 +49,34 @@ opt bob has no peer id yet
   deactivate hyperpath_bob
 end
 
-webapp_bob -> hyperpath_bob: ""createChannel(bob_id, key, alice_id)""
+webapp_bob -> hyperpath_bob: ""openChannel(bob_id, channel_id, key, alice_id)""
 activate webapp_bob
 activate hyperpath_bob
 hyperpath_bob --> webapp_bob: channel
 deactivate hyperpath_bob
 deactivate webapp_bob
-webapp_bob -> hyperpath_bob: start channel
+webapp_bob -> hyperpath_bob: ""connect()""
 activate hyperpath_bob
 
 activate webapp_bob
-note over hyperpath_bob
-  HyperPath knows whether to listen or dial based
-  on the parameters to ""createChannel"". If only
-  the own peer id is given, it will listen. If the
-  desired remote peer id is given, it will dial.
-end note
-
 hyperpath_bob -> hyperpath_bob: ""dialProtocol(alice_id, /hyperpath/1.0.0)""
 note left: Bob's HyperPath is the dialer
 
-hyperpath_bob -// hyperpath_alice: send identify msg over stream:\n"I am Bob [bob_id]"
+hyperpath_bob -// hyperpath_alice: send channel id over stream
 activate hyperpath_alice
-hyperpath_alice -> hyperpath_alice: decrypt message
-alt decrypt fails
+hyperpath_bob ---> webapp_bob: connected
+deactivate webapp_bob
+hyperpath_alice -> hyperpath_alice: verify channel id expected?
+alt wrong channel id
   hyperpath_alice -> hyperpath_alice: close stream
   hyperpath_alice --> webapp_alice: report error???
-else decrypt succeeds
+else correct channel id
   hyperpath_alice -// hyperpath_bob: send identify msg over stream:\n"I am Alice [alice_id]"
-  hyperpath_alice --> webapp_alice: connection succeeded
+  hyperpath_alice --> webapp_alice: connected
 deactivate hyperpath_alice
-  hyperpath_bob ---> webapp_bob: connection succeeded
 end
 
 deactivate webapp_alice
-deactivate webapp_bob
 
 note over webapp_alice, webapp_bob
   Alice and Bob can now communicate over HyperPath
