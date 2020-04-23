@@ -8,7 +8,7 @@ import Libp2p, {
   Stream
 } from 'libp2p'
 import multiaddr from 'multiaddr'
-import pushable from 'it-pushable'
+import pushable, { Pushable } from 'it-pushable'
 
 export class LibP2PStub implements ILibP2P {
   options?: CreateOptions
@@ -21,7 +21,9 @@ export class LibP2PStub implements ILibP2P {
   dialedRemote?: PeerInfo
   sent: string[] = []
   hangUps: (PeerInfo | PeerId | multiaddr | string)[] = []
-  incomingMessagesSource: any
+  incomingMessagesSource?: Pushable<unknown>
+  pendingIncomingDial?: () => void
+  pendingIncommingMessages: string[] = []
 
   constructor(options?: CreateOptions) {
     this.options = options
@@ -47,6 +49,9 @@ export class LibP2PStub implements ILibP2P {
       this.handledProtocol = protocol
       this.protocolHandler = handler
       resolve()
+      if (this.pendingIncomingDial) {
+        this.pendingIncomingDial()
+      }
     })
   }
 
@@ -68,13 +73,19 @@ export class LibP2PStub implements ILibP2P {
   }
 
   fakeIncomingDial(dialer: PeerInfo) {
-    if (!this.protocolHandler) return
+    if (!this.protocolHandler) {
+      this.pendingIncomingDial = () => this.fakeIncomingDial(dialer)
+      return
+    }
 
-    this.incomingMessagesSource = pushable()
+    const source: unknown = pushable()
+    this.incomingMessagesSource = source as Pushable<unknown>
     const stream: Stream = {
-      source: this.incomingMessagesSource,
+      source: source as AsyncGenerator<any, any, any>,
       sink: () => undefined
     }
+    this.pendingIncommingMessages.map(s => this.fakeIncomingMessage(s))
+    this.pendingIncommingMessages = []
     this.protocolHandler({
       stream: stream,
       connection: { remotePeer: dialer.id }
@@ -82,7 +93,11 @@ export class LibP2PStub implements ILibP2P {
   }
 
   fakeIncomingMessage(message: string) {
-    this.incomingMessagesSource.push(message)
+    if (this.incomingMessagesSource) {
+      this.incomingMessagesSource.push(message)
+    } else {
+      this.pendingIncommingMessages.push(message)
+    }
   }
 
   hangUp(peer: PeerInfo | PeerId | multiaddr | string): Promise<void> {

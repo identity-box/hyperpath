@@ -84,7 +84,7 @@ export class LibP2PChannel implements Channel {
     remotePeerInfo.multiaddrs.add(
       multiaddr(
         `/ip4/${signallingServer}/tcp/9090/wss/p2p-webrtc-star/p2p/` +
-          this.remotePeerId!.toB58String()
+        this.remotePeerId!.toB58String()
       )
     )
     const { stream } = await this.node!.dialProtocol(remotePeerInfo, [protocol])

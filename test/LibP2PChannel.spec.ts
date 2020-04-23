@@ -31,12 +31,13 @@ describe('LibP2PChannel', () => {
     })
 
     function createTestChannel(remoteId?: PeerId) {
+      libp2pStub = new LibP2PStub()
       channel = new LibP2PChannel(
         myId,
         channelId,
         options =>
           new Promise(resolve => {
-            libp2pStub = new LibP2PStub(options)
+            libp2pStub.options = options
             resolve(libp2pStub)
           }),
         remoteId
@@ -69,13 +70,19 @@ describe('LibP2PChannel', () => {
       it('has registered the hyperpath protocol', () => {
         expect(libp2pStub.handledProtocol).toBe(protocol)
       })
+    })
+
+    describe('channel id exchange', () => {
+      beforeEach(async () => {
+        createTestChannel()
+      })
 
       it('hangs up when it receives incorrect channel id', async () => {
         const invalidChannelId = ChannelId.createRandom().toString()
         const dialer = new PeerInfo(new PeerId(Buffer.alloc(1, 2)))
         libp2pStub.fakeIncomingDial(dialer)
         libp2pStub.fakeIncomingMessage(invalidChannelId)
-        await flushPromises()
+        await channel.connect()
         expect(libp2pStub.hangUps).toHaveLength(1)
         expect(libp2pStub.hangUps[0]).toEqual(dialer.id)
       })
@@ -84,7 +91,7 @@ describe('LibP2PChannel', () => {
         const dialer = new PeerInfo(new PeerId(Buffer.alloc(1, 2)))
         libp2pStub.fakeIncomingDial(dialer)
         libp2pStub.fakeIncomingMessage(channelId.toString())
-        await flushPromises()
+        await channel.connect()
         expect(libp2pStub.hangUps).toHaveLength(0)
       })
     })
